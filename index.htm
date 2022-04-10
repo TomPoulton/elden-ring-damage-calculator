@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags for bootstrap -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="lib/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/c3/0.7.20/c3.min.css" rel="stylesheet">
+    
+    <!-- latest version of c3 only supports d3 v5 -->
+    <script src="lib/d3/5.16.0/d3.min.js"></script>
+    <script src="lib/c3/0.7.20/c3.min.js"></script>
+
+    <title>Elden Ring Damage</title>
+  </head>
+
+  <body>
+    
+    <a href="https://github.com/TomPoulton/elden-ring-damage-calculator" target="_blank" class="float-end me-3">
+      <img alt="source" src="img/GitHub-Mark-64px.png" style="max-height:40px; width:auto;">
+    </a>
+
+    <div class="container">
+
+      <!-- Character attributes -->
+      <div class="row justify-content-md-center mt-3">
+        <div id="userInput" class="col-8">
+          <div class="input-group">
+            <span class="input-group-text">Vig:</span>
+            <input type="text" class="form-control" placeholder="Vig" id="Vig" aria-label="Vigor" value="0" disabled />
+            <span class="input-group-text">Min:</span>
+            <input type="text" class="form-control" placeholder="Min" id="Min" aria-label="Mind" value="0" disabled />
+            <span class="input-group-text">End:</span>
+            <input type="text" class="form-control" placeholder="End" id="End" aria-label="Endurance" value="0" disabled />
+            <span class="input-group-text">Str:</span>
+            <input type="text" class="form-control" placeholder="Str" id="Str" aria-label="Strength" value="8" />
+            <span class="input-group-text">Dex:</span>
+            <input type="text" class="form-control" placeholder="Dex" id="Dex" aria-label="Dexterity" value="8" />
+            <span class="input-group-text">Int:</span>
+            <input type="text" class="form-control" placeholder="Int" id="Int" aria-label="Intelligence" value="8" />
+            <span class="input-group-text">Fai:</span>
+            <input type="text" class="form-control" placeholder="Fai" id="Fai" aria-label="Faith" value="8" >
+            <span class="input-group-text">Arc:</span>
+            <input type="text" class="form-control" placeholder="Arc" id="Arc" aria-label="Arcane" value="8" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="row justify-content-md-center mt-2">
+        <div class="col-1">
+          <div class="input-group">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#helpModal">Help?</button>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="input-group">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#searchOptionsModal">Search Options</button>
+            <button type="button" class="btn btn-primary" id="findBest">Find Best Weapons</button>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="input-group">
+            <input class="form-control" list="weaponSelectList" id="weaponSelect" placeholder="Type to search weapons...">
+            <datalist id="weaponSelectList">
+            </datalist>
+            <button type="button" class="btn btn-primary" id="showWeaponCharts">Show Charts</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weapon charts -->
+    <div class="container" style="display: none;" id="weaponChartsContainer">
+      <div class="row mt-4">
+        <div class="col-12">
+          <button type="button" class="btn-close" aria-label="Hide" id="hideWeaponCharts" style="float: right;"></button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div id="weaponARChart" class="mt-2"></div>
+          <div id="weaponScalingChart" class="mt-2"></div>
+          <div id="weaponPassiveChart" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+      
+    <!-- Best Weapons Table -->
+    <div class="container">
+      <div class="row">  
+        <div class="col-12">
+
+          <div style="padding-top: 25px;">
+            <table id="resultsTable" class="table table-hover table-sm">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Search options modal -->
+    <div class="modal fade" id="searchOptionsModal" tabindex="-1" aria-labelledby="searchOptionsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="searchOptionsModalLabel">Search Options</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex flex-nowrap">
+              <div>
+                <div>Weapon Type Filters</div>
+                <div id="weaponTypeFilters"></div>
+              </div>
+              <div class="ms-5">
+                <div>Damage Type Filters</div>
+                <div id="damageTypeFilters"></div>
+              </div>
+              <div class="ms-5">
+                <div>Passive Effect Filters</div>
+                <div id="passiveFilters"></div>
+              </div>
+              <div class="ms-5">
+                <div>Sort By</div>
+                <select class="form-select" aria-label="Sort select" id="sortSelect">
+                </select>
+              </div>
+              <div class="ms-5">
+                <div>Show Top</div>
+                <input type="text" class="form-control" aria-label="Results count" value="50" id="resultsCount">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">Help</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+          Enter your character's stats in the appropriate boxes at the top of the page. Then you can either:
+          </p>
+          <p>
+          1. Click the <button type="button" class="btn btn-primary btn-sm">Find Best Weapons</button> button to show a list of the best weapons for your stats.
+          You can customize the search by clicking the <button type="button" class="btn btn-outline-secondary btn-sm">Search Options</button> button
+          </p>
+          <p>
+          Clicking a row in the results table will show the upgrade charts for that weapon.
+          </p>
+          <p>
+          2. You can search for a weapon in the search box. Once selected the upgrade charts for that weapon will be shown. Or you can click <button type="button" class="btn btn-primary btn-sm">Show Charts</button>
+          </p>
+          <p>
+          The upgrade charts show how the stats of the weapon change as you upgrade it
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="lib/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/jquery/3.6.0/jquery.min.js"></script>
+    <script src="lib/jquery.csv/jquery.csv.min.js"></script>
+
+    <script src="js/data/csv/Extra_Data.js"></script>
+    <script src="js/data/csv/Attack.js"></script>
+    <script src="js/data/csv/Scaling.js"></script>
+    <script src="js/data/csv/Passive.js"></script>
+    <script src="js/data/csv/AttackElementCorrectParam.js"></script>
+    <script src="js/data/csv/CalcCorrectGraph_ID.js"></script>
+    <script src="js/data/damage.js"></script>
+    <script src="js/data/weapon-types.js"></script>
+    <script src="js/data/import.js"></script>
+
+    <script src="js/calc/scaling.js"></script>
+    <script src="js/calc/damage.js"></script>
+    <script src="js/ui/icons.js"></script>
+    <script src="js/ui/character.js"></script>
+    <script src="js/ui/filters.js"></script>
+    <script src="js/ui/weapon-type-filter.js"></script>
+    <script src="js/ui/damage-type-filter.js"></script>
+    <script src="js/ui/passive-filter.js"></script>
+    <script src="js/ui/weapon-sorter.js"></script>
+    <script src="js/ui/weapon-charts.js"></script>
+    <script src="js/ui/best-weapons.js"></script>
+
+    <script>
+      // Initialize all the tooltips
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+    </script>
+  </body>
+</html>
