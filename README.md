@@ -1,10 +1,22 @@
 # Elden Ring Damage Calculator
 
+Search for the best weapons for your build
+
+<img src="img/search-results.png" alt="Search Results" title="Search Results" style="width:700px; height:auto;">
+
+Filter on weapon and damage types. Sort by AR, damage types, and passive effects
+
+<img src="img/search-options.png" alt="Search Options" title="Search Options" style="width:700px; height:auto;">
+
+See how the weapon's stats change as you upgrade it
+
+<img src="img/weapon-charts.png" alt="Weapon Charts" title="Weapon Charts" style="width:700px; height:auto;">
+
 ## Usage
 
 Enter your attributes at the top, then either search for the best weapon for your stats, or look up a specific weapon and see how it will perform.
 
-You can customrize the search results by clicking "Search Options". If you click on a weapon in the results table it will show you the graphs for that weapon.
+You can customize the search results by clicking `Search Options`. If you click on a weapon in the results table it will show you the graphs for that weapon.
 
 The graphs show how different weapon stats vary with upgrade level:
 - Total AR
