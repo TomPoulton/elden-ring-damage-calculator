@@ -38,6 +38,7 @@ $('#findBest').click(function() {
     resultsTableHead.append(headerRow);
 
     let resultsCount = parseInt($('#resultsCount').val());
+    resultsCount = (allWeaponDamages.length < resultsCount) ? allWeaponDamages.length : resultsCount;
 
     for (i = 0; i < resultsCount; i++) {
         let weaponDamage = allWeaponDamages[i];
