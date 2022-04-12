@@ -14,6 +14,10 @@ See how the weapon's stats change as you upgrade it
 
 You can now see how the weapon's stats change with attributes in real time using the slider under the charts
 
+## Updates
+
+2022/04/11 - Added 'Spell Boost' (Incantaion/Sorcery scaling) calculations, and added it as a sort option
+
 ## Usage
 
 Enter your attributes at the top, then either search for the best weapon for your stats, or look up a specific weapon and see how it will perform.
@@ -34,7 +38,6 @@ All data and calculations are from the spreadsheet by u/TarnishedSpreadsheet [he
 I'm clearly not a frontend developer, my JS and UX foo is weak. Suggestions / improvements / PRs welcome!
 
 ## ToDo
-- Calculate sorcery scaling for staffs etc (possibly a separate table & filter?)
 - Show weapon scaling with attributes
     - just scale against one attribute for now (starting at minimum)
     - Give dropdown for attribute select?

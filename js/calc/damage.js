@@ -29,6 +29,15 @@ function calculateScaledDamageForType(character, weapon, level, damageType, weap
     return scaledDamage;
 }
 
+function calculateSpellBoost(character, weapon, level) {
+    if (weapon.weaponType === 'Glintstone Staff' || weapon.weaponType === 'Sacred Seal') {
+        let magicScaling = calculateScaledDamageForType(character, weapon, level, 'Magic', 1);
+        return (100 + (magicScaling * 100));
+    } else {
+        return 0;
+    }
+}
+
 function calculateWeaponDamage(character, weapon, level) {
     let damage = {
         weapon: weapon,
@@ -69,6 +78,7 @@ function calculateWeaponDamage(character, weapon, level) {
         damage[passiveType] = calculateScaledPassiveEffect(character, weapon, level, passiveType);
     });
 
-    // damage.totalAR = Math.floor(damage.totalAR);
+    damage.spellBoost = calculateSpellBoost(character, weapon, level);
+
     return damage;
 }

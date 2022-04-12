@@ -4,6 +4,7 @@ class WeaponSorter {
         this.sortSelect = $(`#${sortSelectID}`);
         this.options = [
             'AR',
+            'Spell Boost',
             ...damageTypes,
             'Blood',
             'Frost',
@@ -13,8 +14,7 @@ class WeaponSorter {
 
     addSortOptionsToPage() {
         this.options.forEach(option => {
-            let selectString = (option.selected) ? 'selected' : '';
-            this.sortSelect.append(`<option value="${option}" ${selectString}>${option}</option>`);
+            this.sortSelect.append(`<option value="${option}">${option}</option>`);
         });
     }
 
@@ -28,7 +28,12 @@ class WeaponSorter {
             weaponDamages.sort((a, b) => {
                 return b.totalAR - a.totalAR;
             });
-        } else if (passiveTypes.includes(option)) {
+        } else if (option === 'Spell Boost') {
+            weaponDamages.sort((a, b) => {
+                return b.spellBoost - a.spellBoost;
+            });
+        }
+        else if (passiveTypes.includes(option)) {
             weaponDamages.sort((a, b) => {
                 // Sort by passive first, then by AR
                 return b[option] - a[option] || b.totalAR - a.totalAR;

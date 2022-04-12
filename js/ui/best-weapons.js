@@ -27,6 +27,7 @@ $('#findBest').click(function() {
     headerRow.append('<th>Affinity</th>');
     headerRow.append('<th>Type</th>');
     headerRow.append('<th>Level</th>');
+    headerRow.append('<th>Spell Boost</th>');
     headerRow.append('<th>AR</th>');
     damageTypes.forEach(damageType => {
         headerRow.append(`<th>${damageType}</th>`);
@@ -48,12 +49,16 @@ $('#findBest').click(function() {
         resultsRow.append(`<td>${weapon.affinity}</td>`);
         resultsRow.append(`<td>${weapon.weaponType}</td>`);
         resultsRow.append(`<td>${weaponDamage.level}</td>`);
+        let spellBoost = (weaponDamage.spellBoost > 0) ? Math.floor(weaponDamage.spellBoost) : '-';
+        resultsRow.append(`<td>${spellBoost}</td>`);
         resultsRow.append(`<td style="font-weight: bold;">${Math.floor(weaponDamage.totalAR)}</td>`);
         damageTypes.forEach((damageType) => {
             resultsRow.append(`<td>${Math.floor(weaponDamage[damageType].total)}</td>`);
         });
-        damageAttributes.forEach((attribute) => {
-            resultsRow.append(`<td>${attributeScalingString(weapon.levels[weaponDamage.level][attribute])}</td>`);
+        damageAttributes.forEach(attribute => {
+            // resultsRow.append(`<td>${attributeScalingString(weapon.levels[weaponDamage.level][attribute])}</td>`);
+            let attributeScaling = (weapon.levels[weaponDamage.level][attribute] > 0) ? scalingRating(weapon.levels[weaponDamage.level][attribute]) : '';
+            resultsRow.append(`<td>${attributeScaling}</td>`);
         });
         
         // Passive effects
