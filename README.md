@@ -12,6 +12,8 @@ See how the weapon's stats change as you upgrade it
 
 <img src="img/weapon-charts.png" alt="Weapon Charts" title="Weapon Charts" style="width:700px; height:auto;">
 
+You can now see how the weapon's stats change with attributes in real time using the slider under the charts
+
 ## Usage
 
 Enter your attributes at the top, then either search for the best weapon for your stats, or look up a specific weapon and see how it will perform.

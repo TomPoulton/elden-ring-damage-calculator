@@ -54,6 +54,7 @@ function loadWeaponLevelsData() {
             });
             loadPassiveValues(weapons[i], l, weaponPassive);
         }
+        setPassiveEffects(weapons[i]);
     }
 
     // Clean up
@@ -86,6 +87,12 @@ function loadPassiveValues(weapon, level, weaponPassive) {
         else {
             weapon.levels[level][passiveType] = parseInt(weaponPassive[`${passiveType} +${level}`]);
         }
+    });
+}
+
+function setPassiveEffects(weapon) {
+    weapon.passiveEffects = passiveTypes.filter(passiveType => {
+        return (weapon.levels[0][passiveType] > 0);
     });
 }
 

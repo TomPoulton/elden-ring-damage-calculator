@@ -1,4 +1,5 @@
 const chartHeight = 230;
+let currentWeapon = null;
 let weaponARChart = null;
 let weaponScalingChart = null;
 let weaponPassiveChart = null;
@@ -14,21 +15,15 @@ function hideCharts() {
     clearCharts();
 }
 
-function drawARChart(weaponName, damageLevels) {
-
-    let damageValues = damageLevels.map((damageLevel) => {
-        return Math.floor(damageLevel.totalAR);
-    });
-    damageValues.unshift('ar');
-
-    let chartDefinition = {
+function drawARChart() {
+    weaponARChart = c3.generate({
         bindto: '#weaponARChart',
         size: {
             height: chartHeight,
         },
         data: {
-            columns: [ damageValues ],
-            names: { ar: `${weaponName} AR` },
+            columns: [],
+            names: { ar: `${currentWeapon.name} AR` },
             colors: {
                 'Magic':     '#6690e1',
                 'Fire':      '#ef9545',
@@ -42,10 +37,24 @@ function drawARChart(weaponName, damageLevels) {
         axis: {
             y: {
                 min: 0,
+                max: 1200,
                 padding: { bottom:0 },
             }
         },
-    }
+    });
+}
+
+function loadARChartData(damageLevels) {
+
+    let damageValues = damageLevels.map((damageLevel) => {
+        return Math.floor(damageLevel.totalAR);
+    });
+    damageValues.unshift('ar');
+    
+    let data = {
+        columns: [damageValues],
+        names:   { ar: `${currentWeapon.name} AR` },
+    };
 
     elementalDamageTypes.forEach(elementalDamageType => {
         if (damageLevels[0][elementalDamageType].total > 0) {
@@ -56,16 +65,15 @@ function drawARChart(weaponName, damageLevels) {
             
             let dataLabel = elementalDamageType;
             scalingLevels.unshift(dataLabel);
-            chartDefinition.data.columns.push(scalingLevels);
-            chartDefinition.data.names[dataLabel] = elementalDamageType;
+            data.columns.push(scalingLevels);
+            data.names[dataLabel] = elementalDamageType;
         }
-    })
-
-    weaponARChart = c3.generate(chartDefinition);
+    });
+    weaponARChart.load(data);
 }
 
-function drawScalingChart(weaponName, damageLevels) {
-    let chartDefinition = {
+function drawScalingChart() {
+    weaponScalingChart = c3.generate({
         bindto: '#weaponScalingChart',
         size: {
             height: chartHeight,
@@ -81,6 +89,7 @@ function drawScalingChart(weaponName, damageLevels) {
         axis: {
             y: {
                 min: 0,
+                max: 1.5,
                 padding: { bottom:0 },
             }
         },
@@ -89,8 +98,15 @@ function drawScalingChart(weaponName, damageLevels) {
                 value: function(v) { return attributeScalingString(v); }
             }
         },
-    }
+    });
+}
 
+function loadScalingChartData(damageLevels) {
+    let data = {
+        columns: [],
+        names:   {},
+        colors:  {},
+    };
     damageAttributes.forEach((attribute) => {
         if (damageLevels[0].weapon.levels[0][attribute] > 0) {
             
@@ -100,23 +116,17 @@ function drawScalingChart(weaponName, damageLevels) {
             
             let dataLabel = attribute;
             scalingLevels.unshift(dataLabel);
-            chartDefinition.data.columns.push(scalingLevels);
-            chartDefinition.data.names[dataLabel] = `${attribute} scaling`;
-            chartDefinition.data.colors[dataLabel] = '#6a7d91';
+            data.columns.push(scalingLevels);
+            data.names[dataLabel] = `${attribute} scaling`;
+            data.colors[dataLabel] = '#6a7d91';
         }
     });
-
-    weaponScalingChart = c3.generate(chartDefinition);
+    weaponScalingChart.load(data);
 }
 
-function drawPassiveChart(weaponName, damageLevels) {
-
-    let passiveCount = passiveTypes.filter(passiveType => {
-        return (damageLevels[0][passiveType] > 0);
-    });
-    if (passiveCount < 1) { return; }
-
-    let chartDefinition = {
+function drawPassiveChart() {
+    if (currentWeapon.passiveEffects.length === 0) { return; }
+    weaponPassiveChart = c3.generate({
         bindto: '#weaponPassiveChart',
         size: {
             height: chartHeight,
@@ -139,46 +149,58 @@ function drawPassiveChart(weaponName, damageLevels) {
         axis: {
             y: {
                 min: 0,
+                max: 180,
                 padding: { bottom:0 },
             }
         },
+    });
+}
+
+function loadPassiveChartData(damageLevels) {
+    if (currentWeapon.passiveEffects.length === 0) { return; }
+
+    let data = {
+        columns: [],
+        names:   {},
+    };
+    currentWeapon.passiveEffects.forEach(passiveType => {
+   
+        let scalingLevels = damageLevels.map((damageLevel) => {
+            return Math.floor(damageLevel[passiveType]);
+        });
+        
+        let dataLabel = passiveType;
+        scalingLevels.unshift(dataLabel);
+        data.columns.push(scalingLevels);
+        data.names[dataLabel] = passiveType;
+    });
+    weaponPassiveChart.load(data);
+}
+
+function updateChartsForWeapon(character) {
+    let damageLevels = [];
+    for(l = 0; l <= currentWeapon.maxUpgrade; l++) {
+        damageLevels.push(calculateWeaponDamage(character, currentWeapon, l));
     }
 
-    passiveTypes.forEach(passiveType => {
-        if (damageLevels[0][passiveType] > 0) {
-            
-            let scalingLevels = damageLevels.map((damageLevel) => {
-                return Math.floor(damageLevel[passiveType]);
-            });
-            
-            let dataLabel = passiveType;
-            scalingLevels.unshift(dataLabel);
-            chartDefinition.data.columns.push(scalingLevels);
-            chartDefinition.data.names[dataLabel] = passiveType;
-        }
-    });
-
-    weaponPassiveChart = c3.generate(chartDefinition);
+    loadARChartData(damageLevels);
+    loadScalingChartData(damageLevels);
+    loadPassiveChartData(damageLevels);
 }
 
 function showChartsForWeapon(weaponName) {
     clearCharts();
     $('#weaponChartsContainer').show();
 
-    const weapon = weapons.find((w) => {
+    currentWeapon = weapons.find((w) => {
         return w.name === weaponName;
     });
-    const character = getCharacterStats();
 
-    let damageLevels = [];
-    for(l = 0; l <= weapon.maxUpgrade; l++) {
-        damageLevels.push(calculateWeaponDamage(character, weapon, l));
-    }
-
-    drawARChart(weaponName, damageLevels);
-    drawScalingChart(weaponName, damageLevels);
-    drawPassiveChart(weaponName, damageLevels);
-
+    drawARChart();
+    drawScalingChart();
+    drawPassiveChart();
+    updateChartsForWeapon(getCharacterStats());
+    resetStats();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

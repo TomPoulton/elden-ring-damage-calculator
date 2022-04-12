@@ -78,11 +78,30 @@
           <button type="button" class="btn-close" aria-label="Hide" id="hideWeaponCharts" style="float: right;"></button>
         </div>
       </div>
+      
       <div class="row">
         <div class="col-12">
           <div id="weaponARChart" class="mt-2"></div>
           <div id="weaponScalingChart" class="mt-2"></div>
           <div id="weaponPassiveChart" class="mt-2"></div>
+        </div>
+      </div>
+
+      <div class="row justify-content-md-center mt-2">
+        <div class="col-2">
+          <div class="input-group">
+            <select class="form-select" id="statRangeAttribute">
+              <option value="Str">Str</option>
+              <option value="Dex">Dex</option>
+              <option value="Int">Int</option>
+              <option value="Fai">Fai</option>
+              <option value="Arc">Arc</option>
+            </select>
+            <input type="text" class="form-control" id="statRangeValue" disabled>
+          </div>
+        </div>
+        <div class="col-8">
+          <input type="range" class="form-range" min="7" max="99" step="1" id="statRangeBase">
         </div>
       </div>
     </div>
@@ -200,6 +219,7 @@
     <script src="js/ui/passive-filter.js"></script>
     <script src="js/ui/weapon-sorter.js"></script>
     <script src="js/ui/weapon-charts.js"></script>
+    <script src="js/ui/range.js"></script>
     <script src="js/ui/best-weapons.js"></script>
 
     <script>
