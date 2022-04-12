@@ -27,6 +27,10 @@ The graphs show how different weapon stats vary with upgrade level:
 
 All data and calculations are from the spreadsheet by u/TarnishedSpreadsheet [here's the reddit post with all the updates and spinoff projects](https://www.reddit.com/r/Eldenring/comments/tbco46/elden_ring_weapon_calculator/)
 
+## Development
+
+I'm clearly not a frontend developer, my JS and UX foo is weak. Suggestions / improvements / PRs welcome!
+
 ## ToDo
 - Calculate sorcery scaling for staffs etc (possibly a separate table & filter?)
 - Show weapon scaling with attributes

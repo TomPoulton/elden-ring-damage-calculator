@@ -1,4 +1,4 @@
-const chartHeight = 260;
+const chartHeight = 230;
 let weaponARChart = null;
 let weaponScalingChart = null;
 let weaponPassiveChart = null;
@@ -29,6 +29,12 @@ function drawARChart(weaponName, damageLevels) {
         data: {
             columns: [ damageValues ],
             names: { ar: `${weaponName} AR` },
+            colors: {
+                'Magic':     '#6690e1',
+                'Fire':      '#ef9545',
+                'Lightning': '#c6c457',
+                'Holy':      '#d2b576',
+            },
             labels: {
                 format: function(v, id, i, j) { return v; }
             },
@@ -40,6 +46,21 @@ function drawARChart(weaponName, damageLevels) {
             }
         },
     }
+
+    elementalDamageTypes.forEach(elementalDamageType => {
+        if (damageLevels[0][elementalDamageType].total > 0) {
+            
+            let scalingLevels = damageLevels.map(damageLevel => {
+                return Math.floor(damageLevel[elementalDamageType].total);
+            });
+            
+            let dataLabel = elementalDamageType;
+            scalingLevels.unshift(dataLabel);
+            chartDefinition.data.columns.push(scalingLevels);
+            chartDefinition.data.names[dataLabel] = elementalDamageType;
+        }
+    })
+
     weaponARChart = c3.generate(chartDefinition);
 }
 
@@ -81,7 +102,7 @@ function drawScalingChart(weaponName, damageLevels) {
             scalingLevels.unshift(dataLabel);
             chartDefinition.data.columns.push(scalingLevels);
             chartDefinition.data.names[dataLabel] = `${attribute} scaling`;
-            chartDefinition.data.colors[dataLabel] = '#888';
+            chartDefinition.data.colors[dataLabel] = '#6a7d91';
         }
     });
 
@@ -134,7 +155,6 @@ function drawPassiveChart(weaponName, damageLevels) {
             scalingLevels.unshift(dataLabel);
             chartDefinition.data.columns.push(scalingLevels);
             chartDefinition.data.names[dataLabel] = passiveType;
-            // chartDefinition.data.colors[dataLabel] = '#999';
         }
     });
 
@@ -166,14 +186,6 @@ function generateWeaponSelectUI() {
     const weaponNames = weapons.map((weapon) => {
         return weapon.name;
     });
-
-    // let weaponSelect = $(`#weaponSelect`);
-    // weaponNames.forEach((weaponName) => {
-    //     weaponSelect.append(`<option value="${weaponName}">${weaponName}</option>`);
-    // });
-    // weaponSelect.on('change', function() {
-    //     showChartsForWeapon(this.value);
-    // });
 
     let weaponSelect = $(`#weaponSelect`);
     let weaponDataset = $(`#weaponSelectList`);
