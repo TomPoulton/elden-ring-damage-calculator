@@ -42,3 +42,5 @@ I'm clearly not a frontend developer, my JS and UX foo is weak. Suggestions / im
     - just scale against one attribute for now (starting at minimum)
     - Give dropdown for attribute select?
 - Do proper calculations when you're below the stat requirements
+- Add comparison chart to show 2 (or more?) weapons side by side
+    - Probably just AR for now

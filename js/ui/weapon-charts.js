@@ -44,9 +44,17 @@ function drawARChart() {
     });
 }
 
+function loadMainChartData(damageLevels) {
+    if (currentWeapon.weaponType === 'Glintstone Staff' || currentWeapon.weaponType === 'Sacred Seal') {
+        loadSpellBoostData(damageLevels);
+    } else {
+        loadARChartData(damageLevels);
+    }
+}
+
 function loadARChartData(damageLevels) {
 
-    let damageValues = damageLevels.map((damageLevel) => {
+    let damageValues = damageLevels.map(damageLevel => {
         return Math.floor(damageLevel.totalAR);
     });
     damageValues.unshift('ar');
@@ -69,6 +77,20 @@ function loadARChartData(damageLevels) {
             data.names[dataLabel] = elementalDamageType;
         }
     });
+    weaponARChart.load(data);
+}
+
+function loadSpellBoostData(damageLevels) {
+    let damageValues = damageLevels.map(damageLevel => {
+        return Math.floor(damageLevel.spellBoost);
+    });
+    damageValues.unshift('sb');
+    
+    let data = {
+        columns: [damageValues],
+        names:   { sb: `${currentWeapon.name} Spell Boost` },
+    };
+
     weaponARChart.load(data);
 }
 
@@ -183,7 +205,7 @@ function updateChartsForWeapon(character) {
         damageLevels.push(calculateWeaponDamage(character, currentWeapon, l));
     }
 
-    loadARChartData(damageLevels);
+    loadMainChartData(damageLevels);
     loadScalingChartData(damageLevels);
     loadPassiveChartData(damageLevels);
 }
