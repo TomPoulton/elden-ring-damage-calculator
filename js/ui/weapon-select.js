@@ -1,11 +1,12 @@
 class WeaponSelect {
 
     constructor(chartArea) {
-        this.weaponSelect     = $(`#weaponSelect`);
-        this.weaponDataset    = $(`#weaponSelectList`);
-        this.showChartsButton = $('#showWeaponCharts');
+        this.weaponSelect        = $('#weaponSelect');
+        this.weaponDataset       = $('#weaponSelectList');
+        this.showChartsButton    = $('#showWeaponCharts');
+        this.compareWeaponButton = $('#compareWeapon');
         this.chartArea = chartArea;
-
+        
         const weaponNames = Weapons.all.map(weapon => {
             return weapon.name;
         });
@@ -13,14 +14,19 @@ class WeaponSelect {
             this.weaponDataset.append(`<option value="${weaponName}">${weaponName}</option>`);
         });
 
-        this.weaponSelect.on('change', () => {
-            let weaponName = this.weaponSelect.val();
-            this.chartArea.showCharts(weaponName);
-        });
+        // this.weaponSelect.on('change', () => {
+        //     let weaponName = this.weaponSelect.val();
+        //     this.chartArea.showCharts(weaponName);
+        // });
 
         this.showChartsButton.click(() => {
             let weaponName = this.weaponSelect.val();
             this.chartArea.showCharts(weaponName);
+        });
+        
+        this.compareWeaponButton.click(() => {
+            let weaponName = this.weaponSelect.val();
+            this.chartArea.addWeaponComparison(weaponName);
         });
     }
 }

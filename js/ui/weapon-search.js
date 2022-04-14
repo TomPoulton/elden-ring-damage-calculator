@@ -32,7 +32,7 @@ class WeaponSearch {
         let resultsLimit = parseInt(this.resultsLimit.val());
         resultsLimit = (allWeaponDamages.length < resultsLimit) ? allWeaponDamages.length : resultsLimit;
         
-        this.chartArea.hideCharts();
+        this.chartArea.hideAllCharts();
         this.resultsTableHead.children('tr').remove();
         this.resultsTableBody.children('tr').remove();
         this.addHeaderRow();

@@ -2,6 +2,7 @@ class ChartArea {
 
     constructor() {
         this.weapons = [];
+        this.compareMode = false;
         this.chartsContainer  = $('#weaponChartsContainer');
         this.hideChartsButton = $('#hideWeaponCharts');
         this.attributeSelect  = $('#statRangeAttribute');
@@ -14,7 +15,7 @@ class ChartArea {
 
     registerUICallbacks() {
         this.hideChartsButton.click(() => {
-            this.hideCharts();
+            this.hideAllCharts();
         });
         this.attributeSelect.on('change', () => {
             this.resetAttributeSliderAndValue();
@@ -24,15 +25,30 @@ class ChartArea {
             this.attributeValue.val(this.attributeSlider.val());
             this.updateCharts();
         });
-
-        $('#compareWeapon').click(() => {
-            this.compareWeapons();
-        });
     }
 
-    compareWeapons() {
-        let weaponNames = ["Celebrant's Magic Skull", "Guardian's Keen Swordspear", "Cold Zweihander"];
-        this.weapons = Weapons.findAll(weaponNames);
+    showCharts(weaponName) {
+        this.compareMode = false;
+        this.weapons = [Weapons.find(weaponName)];
+        let character = Character.getStats();
+        let damageLevels = this.getDamageLevelsForWeapon(this.weapons[0], character);
+        this.resetAttributeSliderAndValue();
+        this.chartsContainer.show(); // container show has to come before chart show!
+        this.chartGroup.showWeaponCharts(damageLevels);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    addWeaponComparison(weaponName) {
+        this.weapons.push(Weapons.find(weaponName));
+        if (this.compareMode) {
+            this.updateCharts();
+        } else {
+            this.compareMode = true;
+            this.showComparisonCharts();
+        }
+    }
+
+    showComparisonCharts() {
         let character = Character.getStats();
         let damageLevelsArray = this.weapons.map(weapon => {
             return this.getDamageLevelsForWeapon(weapon, character);
@@ -43,24 +59,14 @@ class ChartArea {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    showCharts(weaponName) {
-        this.weapons = [Weapons.find(weaponName)];
-        let character = Character.getStats();
-        let damageLevels = this.getDamageLevelsForWeapon(this.weapons[0], character);
-        this.resetAttributeSliderAndValue();
-        this.chartsContainer.show(); // container show has to come before chart show!
-        this.chartGroup.showWeaponCharts(damageLevels);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
     updateCharts() {
         let character = Character.getStats();
         let attribute = this.attributeSelect.val();
         character[attribute] = this.attributeSlider.val();
-        if (this.weapons.length === 1) {
-            this.updateWeaponCharts(character);
-        } else {
+        if (this.compareMode) {
             this.updateComparisonCharts(character);
+        } else {
+            this.updateWeaponCharts(character);
         }
     }
 
@@ -83,7 +89,9 @@ class ChartArea {
         this.attributeValue.val(attributeValue);
     }
 
-    hideCharts() {
+    hideAllCharts() {
+        this.weapons = [];
+        this.compareMode = false;
         this.chartsContainer.hide();
         this.chartGroup.clearAllCharts();
     }
