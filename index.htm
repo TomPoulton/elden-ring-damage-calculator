@@ -51,13 +51,13 @@
       <div class="row justify-content-md-center mt-2">
         <div class="col-1">
           <div class="input-group">
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#helpModal">Help?</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#helpModal">Help?</button>
           </div>
         </div>
         <div class="col-3">
           <div class="input-group">
             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#searchOptionsModal">Search Options</button>
-            <button type="button" class="btn btn-primary" id="findBest">Find Best Weapons</button>
+            <button type="button" class="btn btn-outline-primary" id="findBest">Find Best Weapons</button>
           </div>
         </div>
         <div class="col-4">
@@ -65,7 +65,8 @@
             <input class="form-control" list="weaponSelectList" id="weaponSelect" placeholder="Type to search weapons...">
             <datalist id="weaponSelectList">
             </datalist>
-            <button type="button" class="btn btn-primary" id="showWeaponCharts">Show Charts</button>
+            <button type="button" class="btn btn-outline-primary" id="showWeaponCharts">Show</button>
+            <button type="button" class="btn btn-outline-primary" id="compareWeapon">Compare</button>
           </div>
         </div>
       </div>
@@ -81,7 +82,8 @@
       
       <div class="row">
         <div class="col-12">
-          <div id="weaponARChart" class="mt-2"></div>
+          <div id="weaponDamageChart" class="mt-2"></div>
+          <div id="weaponComparisonChart" class="mt-2"></div>
           <div id="weaponScalingChart" class="mt-2"></div>
           <div id="weaponPassiveChart" class="mt-2"></div>
         </div>
@@ -151,7 +153,7 @@
               </div>
               <div class="ms-5">
                 <div>Show Top</div>
-                <input type="text" class="form-control" aria-label="Results count" value="50" id="resultsCount">
+                <input type="text" class="form-control" aria-label="Results count" value="50" id="resultsLimit">
               </div>
             </div>
           </div>
@@ -164,29 +166,52 @@
 
     <!-- Help modal -->
     <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="helpModalLabel">Help</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>
-          Enter your character's stats in the appropriate boxes at the top of the page. Then you can either:
-          </p>
-          <p>
-          1. Click the <button type="button" class="btn btn-primary btn-sm">Find Best Weapons</button> button to show a list of the best weapons for your stats.
-          You can customize the search by clicking the <button type="button" class="btn btn-outline-secondary btn-sm">Search Options</button> button
-          </p>
-          <p>
-          Clicking a row in the results table will show the upgrade charts for that weapon.
-          </p>
-          <p>
-          2. You can search for a weapon in the search box. Once selected the upgrade charts for that weapon will be shown. Or you can click <button type="button" class="btn btn-primary btn-sm">Show Charts</button>
-          </p>
-          <p>
-          The upgrade charts show how the stats of the weapon change as you upgrade it
-          </p>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Start</h4>
+              <p class="card-text">First enter your character's stats in the appropriate boxes at the top of the page.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Find The Best Weapons</h4>
+              <p class="card-text">To find the best weapons for your stats click the <button type="button" class="btn btn-outline-primary btn-sm">Find Best Weapons</button> button.</p>
+              <p class="card-text">You can customize the search by clicking the <button type="button" class="btn btn-outline-secondary btn-sm">Search Options</button> button.</p>
+              <p class="card-text">Clicking a row in the results table will show the upgrade charts for that weapon.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Select A Weapon By Name</h4>
+              <p class="card-text">You can find a specific weapon by typing its name into search box that says "Type to search weapons..."</p>
+              <p class="card-text">Once selected, click the <button type="button" class="btn btn-outline-primary btn-sm">Show</button> button to see the upgrade charts for that weapon.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Compare Weapons</h4>
+              <p class="card-text">To add a weapon to the comparison chart, select it by name using the select box, then click the <button type="button" class="btn btn-outline-primary btn-sm">Compare</button> button.</p>
+              <p class="card-text">Repeat for all the weapons you want to compare.</p>
+              <p class="card-text">If you add a weapon to compare while you have a weapon's charts open, both weapons will be included in the comparison.</p>
+              <p class="card-text">To clear the comparison, click the <button type="button" class="btn-close"></button> at the top right of the charts.</p>
+              <p class="card-text">Note that spell casting weapons will chart their Spell Scaling values instead of thier AR.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Weapon Charts</h4>
+              <p class="card-text">Use the slider below the charts to vary an attribute and see how the weapon stats change.</p>
+              <p class="card-text">You can select which attribute to vary using the select box.</p>
+              <p class="card-text">All other character stats will be taken from the inputs at the top of the page.</p>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -205,22 +230,36 @@
     <script src="js/data/csv/Passive.js"></script>
     <script src="js/data/csv/AttackElementCorrectParam.js"></script>
     <script src="js/data/csv/CalcCorrectGraph_ID.js"></script>
+
+    <script src="js/data/weapons.js"></script>
     <script src="js/data/damage.js"></script>
     <script src="js/data/weapon-types.js"></script>
     <script src="js/data/import.js"></script>
 
     <script src="js/calc/scaling.js"></script>
     <script src="js/calc/damage.js"></script>
+
     <script src="js/ui/icons.js"></script>
     <script src="js/ui/character.js"></script>
-    <script src="js/ui/filters.js"></script>
-    <script src="js/ui/weapon-type-filter.js"></script>
-    <script src="js/ui/damage-type-filter.js"></script>
-    <script src="js/ui/passive-filter.js"></script>
-    <script src="js/ui/weapon-sorter.js"></script>
-    <script src="js/ui/weapon-charts.js"></script>
-    <script src="js/ui/range.js"></script>
-    <script src="js/ui/best-weapons.js"></script>
+    
+    <script src="js/ui/filters/ui-filters.js"></script>
+    <script src="js/ui/filters/weapon-type-filter.js"></script>
+    <script src="js/ui/filters/damage-type-filter.js"></script>
+    <script src="js/ui/filters/passive-filter.js"></script>
+    <script src="js/ui/filters/weapon-sorter.js"></script>
+
+    <script src="js/ui/charts/chart.js"></script>
+    <script src="js/ui/charts/damage-chart.js"></script>
+    <script src="js/ui/charts/scaling-chart.js"></script>
+    <script src="js/ui/charts/passives-chart.js"></script>
+    <script src="js/ui/charts/comparison-chart.js"></script>
+    <script src="js/ui/charts/chart-group.js"></script>
+    <script src="js/ui/charts/chart-area.js"></script>
+    <script src="js/ui/charts/percentage-levels.js"></script>
+
+    <script src="js/ui/weapon-search.js"></script>
+    <script src="js/ui/weapon-select.js"></script>
+    <script src="js/ui/page.js"></script>
 
     <script>
       // Initialize all the tooltips

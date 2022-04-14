@@ -1,28 +1,26 @@
-let weaponCount = 0;
-let weapons = [];
-
 function loadWeaponData() {
     const extraData = $.csv.toObjects(extraDataCSV);
 
-    weaponCount = extraData.length;
-    weapons = [weaponCount];
-
-    for (let i = 0; i < weaponCount; i++) {
-        const weapon = extraData[i];
-        weapons[i] = {
-            name:       weapon['Name'],
-            weaponName: weapon['Weapon Name'],
-            weaponType: weapon['Weapon Type'],
-            affinity:   weapon['Affinity'],
-            maxUpgrade: parseInt(weapon['Max Upgrade']),
-            requirements: {},
-            physicalDamageType: weapon['Physical Damage Type']
-        }
-        damageAttributes.forEach(attribute => {
-            weapons[i].requirements[attribute] = parseInt(weapon[`Required (${attribute})`]);
-        });
-    }
+    Weapons.setCount(extraData.length);
     
+    for (let i = 0; i < Weapons.count; i++) {
+        const weaponData = extraData[i];
+        let weapon = {
+            name:       weaponData['Name'],
+            weaponName: weaponData['Weapon Name'],
+            weaponType: weaponData['Weapon Type'],
+            affinity:   weaponData['Affinity'],
+            maxUpgrade: parseInt(weaponData['Max Upgrade']),
+            requirements: {},
+            physicalDamageType: weaponData['Physical Damage Type']
+        }
+        Character.damageAttributes.forEach(attribute => {
+            weapon.requirements[attribute] = parseInt(weaponData[`Required (${attribute})`]);
+        });
+        weapon.canCastSpells = (weapon.weaponType === 'Glintstone Staff' || weapon.weaponType === 'Sacred Seal');
+        Weapons.all[i] = weapon;
+    }
+
     // Clean up
     delete extraDataCSV;
     delete extraData;
@@ -33,28 +31,29 @@ function loadWeaponLevelsData() {
     const scaling = $.csv.toObjects(scalingCSV);
     const passive = $.csv.toObjects(passiveCSV);
 
-    for (let i = 0; i < weaponCount; i++) {
+    for (let i = 0; i < Weapons.count; i++) {
         const weaponAttack  = attack[i];
         const weaponScaling = scaling[i];
         const weaponPassive = passive[i];
         
         // do name check?
+        let weapon = Weapons.all[i];
         
-        weapons[i].levels = [weapons[i].maxUpgrade + 1];
-        for (let l = 0; l <= weapons[i].maxUpgrade; l++) {
-            weapons[i].levels[l] = {
+        weapon.levels = [weapon.maxUpgrade + 1];
+        for (let l = 0; l <= weapon.maxUpgrade; l++) {
+            weapon.levels[l] = {
                 Physical:  parseFloat(weaponAttack[`Phys +${l}`]),
                 Magic:     parseFloat(weaponAttack[`Mag +${l}`]),
                 Fire:      parseFloat(weaponAttack[`Fire +${l}`]),
                 Lightning: parseFloat(weaponAttack[`Ligh +${l}`]),
                 Holy:      parseFloat(weaponAttack[`Holy +${l}`]),
             }
-            damageAttributes.forEach(attribute => {
-                weapons[i].levels[l][attribute] = parseFloat(weaponScaling[`${attribute} +${l}`]);
+            Character.damageAttributes.forEach(attribute => {
+                weapon.levels[l][attribute] = parseFloat(weaponScaling[`${attribute} +${l}`]);
             });
-            loadPassiveValues(weapons[i], l, weaponPassive);
+            loadPassiveValues(weapon, l, weaponPassive);
         }
-        setPassiveEffects(weapons[i]);
+        setPassiveEffects(weapon);
     }
 
     // Clean up
@@ -100,7 +99,7 @@ function loadWeaponScalingData() {
     const elementScalingFlags  = $.csv.toObjects(attackElementCorrectParamCSV);
     const elementScalingCurves = $.csv.toObjects(calcCorrectGraphIDCSV);
 
-    for (let i = 0; i < weaponCount; i++) {
+    for (let i = 0; i < Weapons.count; i++) {
         const weaponElementScalingCurves  = elementScalingCurves[i];
         const weaponElementScalingPattern = weaponElementScalingCurves[`AttackElementCorrect ID`];
         // do name check
@@ -108,13 +107,15 @@ function loadWeaponScalingData() {
             return elementFlags['Row ID'] === weaponElementScalingPattern;
         });
 
-        weapons[i].scaling = {};
+        let weapon = Weapons.all[i];
+
+        weapon.scaling = {};
         damageTypes.forEach((element) => {
-            weapons[i].scaling[element] = {
+            weapon.scaling[element] = {
                 curve: parseInt(weaponElementScalingCurves[element]),
             }
-            damageAttributes.forEach(attribute => {
-                weapons[i].scaling[element][attribute] = parseInt(weaponElementScalingFlags[`${element} Scaling: ${attribute.toUpperCase()}`]);
+            Character.damageAttributes.forEach(attribute => {
+                weapon.scaling[element][attribute] = parseInt(weaponElementScalingFlags[`${element} Scaling: ${attribute.toUpperCase()}`]);
             });
         });
     }
@@ -125,11 +126,3 @@ function loadWeaponScalingData() {
     delete calcCorrectGraphIDCSV;
     delete elementScalingCurves;
 }
-
-loadWeaponData();
-loadWeaponLevelsData();
-loadWeaponScalingData();
-
-// ######################################
-// console.log(weapons);
-// ######################################

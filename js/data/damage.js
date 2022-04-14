@@ -10,21 +10,6 @@ const damageTypes = [
     ...elementalDamageTypes,
 ];
 
-const damageAttributes = [
-    'Str',
-    'Dex',
-    'Int',
-    'Fai',
-    'Arc',
-];
-
-const characterAttributes = [
-    'Vig',
-    'Min',
-    'End',
-    ...damageAttributes,
-];
-
 // Passive effects that have a constant value regardless of weapon level or character attribute values
 const flatPassives = [
     "Scarlet Rot", 
