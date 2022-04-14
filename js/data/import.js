@@ -21,8 +21,9 @@ function loadWeaponData() {
         damageAttributes.forEach(attribute => {
             weapons[i].requirements[attribute] = parseInt(weapon[`Required (${attribute})`]);
         });
+        weapons[i].canCastSpells = (weapons[i].weaponType === 'Glintstone Staff' || weapons[i].weaponType === 'Sacred Seal');
     }
-    
+
     // Clean up
     delete extraDataCSV;
     delete extraData;
