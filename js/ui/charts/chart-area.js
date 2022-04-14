@@ -26,7 +26,7 @@ class ChartArea {
     }
 
     showCharts(weaponName) {
-        let character = getCharacterStats();
+        let character = Character.getStats();
         let weapon = weapons.find((w) => {
             return w.name === weaponName;
         });
@@ -37,7 +37,7 @@ class ChartArea {
     }
 
     updateCharts() {
-        let character = getCharacterStats();
+        let character = Character.getStats();
         let attribute = this.attributeSelect.val();
         character[attribute] = this.attributeSlider.val();
         this.chartGroup.updateCharts(character);
@@ -45,7 +45,7 @@ class ChartArea {
 
     resetAttributeSliderAndValue() {
         let attribute = this.attributeSelect.val();
-        let attributeValue = getCharacterStats()[attribute];
+        let attributeValue = Character.getStat(attribute);
         this.attributeSlider.val(attributeValue);
         this.attributeValue.val(attributeValue);
     }

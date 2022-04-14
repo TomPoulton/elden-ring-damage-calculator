@@ -13,7 +13,7 @@ class ScalingChart extends Chart {
             names:   {},
             colors:  {},
         };
-        damageAttributes.forEach((attribute) => {
+        Character.damageAttributes.forEach((attribute) => {
             if (damageLevels[0].weapon.levels[0][attribute] > 0) {
                 
                 let scalingLevels = damageLevels.map((damageLevel) => {

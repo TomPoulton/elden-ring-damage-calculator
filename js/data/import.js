@@ -18,7 +18,7 @@ function loadWeaponData() {
             requirements: {},
             physicalDamageType: weapon['Physical Damage Type']
         }
-        damageAttributes.forEach(attribute => {
+        Character.damageAttributes.forEach(attribute => {
             weapons[i].requirements[attribute] = parseInt(weapon[`Required (${attribute})`]);
         });
         weapons[i].canCastSpells = (weapons[i].weaponType === 'Glintstone Staff' || weapons[i].weaponType === 'Sacred Seal');
@@ -50,7 +50,7 @@ function loadWeaponLevelsData() {
                 Lightning: parseFloat(weaponAttack[`Ligh +${l}`]),
                 Holy:      parseFloat(weaponAttack[`Holy +${l}`]),
             }
-            damageAttributes.forEach(attribute => {
+            Character.damageAttributes.forEach(attribute => {
                 weapons[i].levels[l][attribute] = parseFloat(weaponScaling[`${attribute} +${l}`]);
             });
             loadPassiveValues(weapons[i], l, weaponPassive);
@@ -114,7 +114,7 @@ function loadWeaponScalingData() {
             weapons[i].scaling[element] = {
                 curve: parseInt(weaponElementScalingCurves[element]),
             }
-            damageAttributes.forEach(attribute => {
+            Character.damageAttributes.forEach(attribute => {
                 weapons[i].scaling[element][attribute] = parseInt(weaponElementScalingFlags[`${element} Scaling: ${attribute.toUpperCase()}`]);
             });
         });

@@ -8,7 +8,7 @@ $('#findBest').click(function() {
     
     let filteredWeapons = weaponTypeFilters.filter(weapons);
     
-    const character = getCharacterStats();
+    const character = Character.getStats();
     let allWeaponDamages = filteredWeapons.map((weapon) => {
         return calculateWeaponDamage(character, weapon, weapon.maxUpgrade);
     });
@@ -32,7 +32,7 @@ $('#findBest').click(function() {
     damageTypes.forEach(damageType => {
         headerRow.append(`<th>${damageType}</th>`);
     });
-    damageAttributes.forEach(damageAttribute => {
+    Character.damageAttributes.forEach(damageAttribute => {
         headerRow.append(`<th>${damageAttribute}</th>`);
     });
     headerRow.append('<th>Passives</th>');
@@ -55,7 +55,7 @@ $('#findBest').click(function() {
         damageTypes.forEach((damageType) => {
             resultsRow.append(`<td>${Math.floor(weaponDamage[damageType].total)}</td>`);
         });
-        damageAttributes.forEach(attribute => {
+        Character.damageAttributes.forEach(attribute => {
             // resultsRow.append(`<td>${attributeScalingString(weapon.levels[weaponDamage.level][attribute])}</td>`);
             let attributeScaling = (weapon.levels[weaponDamage.level][attribute] > 0) ? scalingRating(weapon.levels[weaponDamage.level][attribute]) : '';
             resultsRow.append(`<td>${attributeScaling}</td>`);

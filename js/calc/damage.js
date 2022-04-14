@@ -15,7 +15,7 @@ function calculateScaledPassiveEffect(character, weapon, level, passiveType) {
 function calculateScaledDamageForType(character, weapon, level, damageType, weaponDamage) {
     let scaledDamage = 0;
     if (weaponDamage > 0) {
-        damageAttributes.forEach((attribute) => {
+        Character.damageAttributes.forEach((attribute) => {
             // Check the flag to see if weapon scales this damage type with this attribute
             if (weapon.scaling[damageType][attribute] === 1) {
                 attributeValue = character[attribute];
