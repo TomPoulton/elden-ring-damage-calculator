@@ -4,7 +4,7 @@ class WeaponSorter {
         this.sortSelect = $(`#${sortSelectID}`);
         this.options = [
             'AR',
-            'Spell Boost',
+            'Spell Scaling',
             ...damageTypes,
             'Blood',
             'Frost',
@@ -28,9 +28,9 @@ class WeaponSorter {
             weaponDamages.sort((a, b) => {
                 return b.totalAR - a.totalAR;
             });
-        } else if (option === 'Spell Boost') {
+        } else if (option === 'Spell Scaling') {
             weaponDamages.sort((a, b) => {
-                return b.spellBoost - a.spellBoost;
+                return b.spellScaling - a.spellScaling;
             });
         }
         else if (passiveTypes.includes(option)) {

@@ -27,7 +27,7 @@ $('#findBest').click(function() {
     headerRow.append('<th>Affinity</th>');
     headerRow.append('<th>Type</th>');
     headerRow.append('<th>Level</th>');
-    headerRow.append('<th>Spell Boost</th>');
+    headerRow.append('<th>Spell Scaling</th>');
     headerRow.append('<th>AR</th>');
     damageTypes.forEach(damageType => {
         headerRow.append(`<th>${damageType}</th>`);
@@ -49,8 +49,8 @@ $('#findBest').click(function() {
         resultsRow.append(`<td>${weapon.affinity}</td>`);
         resultsRow.append(`<td>${weapon.weaponType}</td>`);
         resultsRow.append(`<td>${weaponDamage.level}</td>`);
-        let spellBoost = (weaponDamage.spellBoost > 0) ? Math.floor(weaponDamage.spellBoost) : '-';
-        resultsRow.append(`<td>${spellBoost}</td>`);
+        let spellScaling = (weaponDamage.spellScaling > 0) ? Math.floor(weaponDamage.spellScaling) : '-';
+        resultsRow.append(`<td>${spellScaling}</td>`);
         resultsRow.append(`<td style="font-weight: bold;">${Math.floor(weaponDamage.totalAR)}</td>`);
         damageTypes.forEach((damageType) => {
             resultsRow.append(`<td>${Math.floor(weaponDamage[damageType].total)}</td>`);
