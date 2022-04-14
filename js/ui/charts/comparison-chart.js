@@ -43,18 +43,27 @@ class ComparisonChart extends Chart {
 
         damageLevelsArray.forEach(damageLevels => {
             let weapon = damageLevels[0].weapon;
-            let damageValues = damageLevels.map(damageLevel => {
-                return Math.floor(damageLevel.totalAR);
-            });
+
+            let dataLabel  = [];
+            let dataValues = [];
+            if (weapon.canCastSpells) {
+                dataLabel = `${weapon.name} Spell Scaling`;
+                dataValues = damageLevels.map(damageLevel => {
+                    return Math.floor(damageLevel.spellScaling);
+                });
+            } else {
+                dataLabel = `${weapon.name} AR`;
+                dataValues = damageLevels.map(damageLevel => {
+                    return Math.floor(damageLevel.totalAR);
+                });
+            }
+            dataValues.unshift(dataLabel);
+
+            let xLabel = `${weapon.name} x`;
             let upgradePercentages = this.getUpgradePercantages(weapon);
-
-            let dataLabel = `${weapon.name} AR`;
-            let xLabel    = `${weapon.name} x`;
-
-            damageValues.unshift(dataLabel);
             upgradePercentages.unshift(xLabel);
 
-            data.columns.push(damageValues);
+            data.columns.push(dataValues);
             data.columns.push(upgradePercentages);
 
             // Tells c3 to use the upgrade percentages as x values so that max 10 and max 25 weapons can be compared side by side
