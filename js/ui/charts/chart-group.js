@@ -15,9 +15,9 @@ class ChartGroup {
     }
 
     clearCharts() {
-        this.damageChart.drawChart();
-        this.scalingChart.drawChart();
-        this.passiveChart.drawChart();
+        this.damageChart.clearChart();
+        this.scalingChart.clearChart();
+        this.passiveChart.clearChart();
     }
 
     drawCharts() {

@@ -17,6 +17,7 @@ class ChartArea {
         });
         this.attributeSelect.on('change', () => {
             this.resetAttributeSliderAndValue();
+            this.updateCharts();
         });
         this.attributeSlider.on('input', () => {
             this.attributeValue.val(this.attributeSlider.val());
@@ -30,8 +31,8 @@ class ChartArea {
             return w.name === weaponName;
         });
         this.resetAttributeSliderAndValue();
+        this.chartsContainer.show(); // container show has to come before chart show!
         this.chartGroup.showChartsForWeapon(weapon, character);
-        this.chartsContainer.show();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 

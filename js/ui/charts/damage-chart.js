@@ -11,11 +11,10 @@ class DamageChart extends Chart {
         let damageValues = damageLevels.map(damageLevel => {
             return Math.floor(damageLevel.totalAR);
         });
-        damageValues.unshift('ar');
+        damageValues.unshift(`${this.weapon.name} AR`);
         
         let data = {
             columns: [damageValues],
-            names:   { ar: `${this.weapon.name} AR` }, // ############# Do you need this, or just set in unshift above?
         };
     
         elementalDamageTypes.forEach(elementalDamageType => {
@@ -28,12 +27,11 @@ class DamageChart extends Chart {
                 let dataLabel = elementalDamageType;
                 scalingLevels.unshift(dataLabel);
                 data.columns.push(scalingLevels);
-                data.names[dataLabel] = elementalDamageType; // ############# Do you need this if it's already the name/id of the data column
             }
         });
 
         if (this.weapon.canCastSpells) {
-            data.columns.push(getSpellScalingValues(damageLevels));
+            data.columns.push(this.getSpellScalingValues(damageLevels));
         }
 
         this.chart.load(data);
@@ -43,7 +41,8 @@ class DamageChart extends Chart {
         let spellScalingValues = damageLevels.map(damageLevel => {
             return Math.floor(damageLevel.spellScaling);
         });
-        spellScalingValues.unshift('Spell Scaling');
+        let dataLabel = (this.weapon.weaponType === 'Glintstone Staff') ? 'Sorcery Scaling' : 'Incantation Scaling';
+        spellScalingValues.unshift(dataLabel);
         return spellScalingValues;
     }
 }

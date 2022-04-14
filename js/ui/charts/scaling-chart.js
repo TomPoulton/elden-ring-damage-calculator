@@ -10,7 +10,6 @@ class ScalingChart extends Chart {
         this.weapon = damageLevels[0].weapon;
         let data = {
             columns: [],
-            names:   {},
             colors:  {},
         };
         Character.damageAttributes.forEach((attribute) => {
@@ -20,10 +19,9 @@ class ScalingChart extends Chart {
                     return damageLevel.weapon.levels[damageLevel.level][attribute];
                 });
                 
-                let dataLabel = attribute;
+                let dataLabel = `${attribute} Scaling`;
                 scalingLevels.unshift(dataLabel);
                 data.columns.push(scalingLevels);
-                data.names[dataLabel] = `${attribute} Scaling`;
             }
         });
         

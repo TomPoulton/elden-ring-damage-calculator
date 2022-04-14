@@ -1,6 +1,7 @@
 class Chart {
 
     constructor(chartElement, yMax, labelFormat, tooltipFormat) {
+        this.chart = null;
         this.chartDefinition = {
             bindto: `#${chartElement}`,
             size: {
@@ -25,7 +26,7 @@ class Chart {
                     'Frost':       '#7696c2',
                     'Poison':      '#7fb66b',
                     'Blood':       '#890e0e',
-                    'Sorcery Scaling':     '#00ffff',
+                    'Sorcery Scaling':     '#009fff',
                     'Incantation Scaling': '#cc99ff',
                     // 'Stamina': '#339966',
 

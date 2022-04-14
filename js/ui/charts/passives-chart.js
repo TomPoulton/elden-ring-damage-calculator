@@ -10,7 +10,6 @@ class PassivesChart extends Chart {
         this.weapon = damageLevels[0].weapon;
         let data = {
             columns: [],
-            names:   {},
         };
         this.weapon.passiveEffects.forEach(passiveType => {
        
@@ -21,7 +20,6 @@ class PassivesChart extends Chart {
             let dataLabel = passiveType;
             scalingLevels.unshift(dataLabel);
             data.columns.push(scalingLevels);
-            data.names[dataLabel] = passiveType;
         });
         this.chart.load(data);
     }
