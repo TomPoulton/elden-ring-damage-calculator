@@ -127,10 +127,6 @@ function loadWeaponScalingData() {
     delete elementScalingCurves;
 }
 
-loadWeaponData();
-loadWeaponLevelsData();
-loadWeaponScalingData();
-
 // ######################################
 // console.log(weapons);
 // ######################################

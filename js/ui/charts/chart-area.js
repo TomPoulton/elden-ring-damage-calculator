@@ -13,8 +13,7 @@ class ChartArea {
 
     registerUICallbacks() {
         this.hideChartsButton.click(() => {
-            this.chartsContainer.hide();
-            this.chartGroup.clearCharts();
+            this.hideCharts();
         });
         this.attributeSelect.on('change', () => {
             this.resetAttributeSliderAndValue();
@@ -48,5 +47,10 @@ class ChartArea {
         let attributeValue = Character.getStat(attribute);
         this.attributeSlider.val(attributeValue);
         this.attributeValue.val(attributeValue);
+    }
+
+    hideCharts() {
+        this.chartsContainer.hide();
+        this.chartGroup.clearCharts();
     }
 }

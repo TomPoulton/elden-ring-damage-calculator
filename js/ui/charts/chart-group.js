@@ -30,7 +30,7 @@ class ChartGroup {
 
     updateCharts(character) {
         let damageLevels = [];
-        for(l = 0; l <= this.weapon.maxUpgrade; l++) {
+        for(let l = 0; l <= this.weapon.maxUpgrade; l++) {
             damageLevels.push(calculateWeaponDamage(character, this.weapon, l));
         }
         this.damageChart.updateChart(damageLevels);

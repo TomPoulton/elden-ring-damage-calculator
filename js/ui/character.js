@@ -24,6 +24,6 @@ class Character {
     }
 
     static getStat(attribute) {
-        parseInt($(`#${attribute}`).val());
+        return parseInt($(`#${attribute}`).val());
     }
 }
