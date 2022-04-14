@@ -18,7 +18,7 @@ class WeaponSearch {
 
     search() {
         let character = Character.getStats();
-        let filteredWeapons = this.weaponTypeFilters.filter(weapons);
+        let filteredWeapons = this.weaponTypeFilters.filter(Weapons.all);
         let allWeaponDamages = filteredWeapons.map(weapon => {
             return calculateWeaponDamage(character, weapon, weapon.maxUpgrade);
         });

@@ -6,7 +6,7 @@ class WeaponSelect {
         this.showChartsButton = $('#showWeaponCharts');
         this.chartArea = chartArea;
 
-        const weaponNames = weapons.map(weapon => {
+        const weaponNames = Weapons.all.map(weapon => {
             return weapon.name;
         });
         weaponNames.forEach(weaponName => {

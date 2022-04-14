@@ -1,6 +1,6 @@
 // Run manually via browser console to generate the inital list of types used below
 function getUniqueWeaponTypes() {
-    let weaponTypes = weapons.map((weapon) => {
+    let weaponTypes = Weapons.all.map((weapon) => {
         return weapon.weaponType;
     });
     weaponTypes = [...new Set(weaponTypes)];

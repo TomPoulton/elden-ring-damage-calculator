@@ -27,9 +27,7 @@ class ChartArea {
 
     showCharts(weaponName) {
         let character = Character.getStats();
-        let weapon = weapons.find((w) => {
-            return w.name === weaponName;
-        });
+        let weapon = Weapons.find(weaponName);
         this.resetAttributeSliderAndValue();
         this.chartsContainer.show(); // container show has to come before chart show!
         this.chartGroup.showChartsForWeapon(weapon, character);
