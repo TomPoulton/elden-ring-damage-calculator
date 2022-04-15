@@ -6,8 +6,7 @@ class WeaponSorter {
             'AR',
             'Spell Scaling',
             ...damageTypes,
-            'Blood',
-            'Frost',
+            ...passiveTypes,
         ];
         this.addSortOptionsToPage();
     }
