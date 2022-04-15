@@ -16,6 +16,10 @@ You can now see how the weapon's stats change with attributes in real time using
 
 ## Updates
 
+2022/04/14 - Fixed incorrect non-strength scaling values on all +0 weapons. UI updates
+
+2022/04/13 - Added weapon comparison charts
+
 2022/04/11 - Added 'Spell Boost' (Incantaion/Sorcery scaling) calculations, and added it as a sort option
 
 ## Usage

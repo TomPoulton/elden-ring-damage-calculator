@@ -7,8 +7,8 @@ let chartArea = new ChartArea();
 let weaponSelect = new WeaponSelect(chartArea);
 let weaponSearch = new WeaponSearch(chartArea);
 
-$('#showWeaponCharts').append(Icons.graphUp);
-$('#compareWeapon').append(Icons.plusLg);
+$('.chart-button').append(Icons.graphUp);
+$('.compare-button').append(Icons.plusLg);
 
 // Initialize all the tooltips
 // Only do this once, otherwise things get messy

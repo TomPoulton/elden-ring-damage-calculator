@@ -67,8 +67,8 @@
             <input class="form-control" list="weaponSelectList" id="weaponSelect" placeholder="Type to search weapons...">
             <datalist id="weaponSelectList">
             </datalist>
-            <button type="button" class="btn btn-outline-primary" id="compareWeapon" data-bs-toggle="tooltip" title="Add weapon for comparison"></button>
-            <button type="button" class="btn btn-outline-primary" id="showWeaponCharts" data-bs-toggle="tooltip" title="View charts for weapons"></button>
+            <button type="button" class="btn btn-outline-primary compare-button" id="compareWeapon" data-bs-toggle="tooltip" title="Add weapon for comparison"></button>
+            <button type="button" class="btn btn-outline-primary chart-button" id="showWeaponCharts" data-bs-toggle="tooltip" title="View charts for weapons"></button>
           </div>
         </div>
       </div>
@@ -184,26 +184,28 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">Find The Best Weapons</h4>
-              <p class="card-text">To find the best weapons for your stats click the <button type="button" class="btn btn-outline-primary btn-sm">Find Best Weapons</button> button.</p>
+              <p class="card-text">To find the best weapons for your stats click the <button type="button" class="btn btn-outline-primary btn-sm">Search</button> button.</p>
               <p class="card-text">You can customize the search by clicking the <button type="button" class="btn btn-outline-secondary btn-sm">Search Options</button> button.</p>
-              <p class="card-text">Clicking a row in the results table will show the upgrade charts for that weapon.</p>
+              <p class="card-text">Clicking the <button type="button" class="btn btn-outline-primary btn-sm border-0 chart-button"></button> button for a weapon will show the upgrade charts for that weapon.</p>
             </div>
           </div>
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">Select A Weapon By Name</h4>
               <p class="card-text">You can find a specific weapon by typing its name into search box that says "Type to search weapons..."</p>
-              <p class="card-text">Once selected, click the <button type="button" class="btn btn-outline-primary btn-sm">Show</button> button to see the upgrade charts for that weapon.</p>
+              <p class="card-text">Once selected, click the <button type="button" class="btn btn-outline-primary btn-sm chart-button"></button> button to see the upgrade charts for that weapon.</p>
             </div>
           </div>
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">Compare Weapons</h4>
-              <p class="card-text">To add a weapon to the comparison chart, select it by name using the select box, then click the <button type="button" class="btn btn-outline-primary btn-sm">Compare</button> button.</p>
+              <p class="card-text">To add a weapon to the comparison chart, either:</p>
+              <p class="card-text">- select it by name using the select box, then click the <button type="button" class="btn btn-outline-primary btn-sm compare-button"></button> button.</p>
+              <p class="card-text">- click the <button type="button" class="btn btn-outline-primary btn-sm border-0 compare-button"></button> button for a weapon in the search results.</p>
               <p class="card-text">Repeat for all the weapons you want to compare.</p>
               <p class="card-text">If you add a weapon to compare while you have a weapon's charts open, both weapons will be included in the comparison.</p>
               <p class="card-text">To clear the comparison, click the <button type="button" class="btn-close"></button> at the top right of the charts.</p>
-              <p class="card-text">Note that spell casting weapons will chart their Spell Scaling values instead of thier AR.</p>
+              <p class="card-text">Note that Staffs and Seals will chart their Spell Scaling values instead of thier AR.</p>
             </div>
           </div>
           <div class="card">
