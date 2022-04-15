@@ -4,6 +4,7 @@ class WeaponSearch {
         this.chartArea         = chartArea;
         this.searchButton      = $('#findBest');
         this.resultsLimit      = $('#resultsLimit');
+        this.resultsArea       = $('#resultsArea');
         this.resultsTableHead  = $('#resultsTable thead');
         this.resultsTableBody  = $('#resultsTable tbody');
         this.weaponTypeFilters = new WeaponTypeFilters('weaponTypeFilters');
@@ -11,6 +12,7 @@ class WeaponSearch {
         this.passiveFilters    = new PassiveFilters('passiveFilters');
         this.weaponSorter      = new WeaponSorter('sortSelect');
 
+        this.addHeaderRow();
         this.searchButton.click(() => {
             this.displaySearchResults(this.search());
         });
@@ -33,17 +35,35 @@ class WeaponSearch {
         resultsLimit = (allWeaponDamages.length < resultsLimit) ? allWeaponDamages.length : resultsLimit;
         
         this.chartArea.hideAllCharts();
-        this.resultsTableHead.children('tr').remove();
         this.resultsTableBody.children('tr').remove();
-        this.addHeaderRow();
         for (let i = 0; i < resultsLimit; i++) {
             this.addBodyRow(allWeaponDamages[i]);
         }
-        this.registerRowClickCallbacks();
+        this.resultsArea.show();
     }
 
     addHeaderRow() {
-        let row = ['Name', 'Affinity', 'Type', 'Level', 'Spell Scaling', 'AR', ...damageTypes, ...Character.damageAttributes, 'Passives'];
+        let row = [
+            '', // Actions
+            'Name',
+            'Affinity',
+            'Type',
+            'Level',
+            `SS <span data-bs-toggle="tooltip" title="Spell Scaling for Sorceries or Incantaions">${Icons.help}</span>`,
+            `AR <span data-bs-toggle="tooltip" title="Attack Rating aka Total Damage">${Icons.help}</span>`,
+            'Phys',
+            'Mag',
+            'Fire',
+            'Ligh',
+            'Holy',
+            'Str',
+            'Dex',
+            'Int',
+            'Fai',
+            'Arc',
+            'Passives',
+        ];
+            
         let headerRow = $('<tr></tr>');
         row.forEach(heading => {
             headerRow.append(`<th>${heading}</th>`);
@@ -54,6 +74,7 @@ class WeaponSearch {
     addBodyRow(weaponDamage) {
         let weapon = weaponDamage.weapon;
         let resultsRow = $(`<tr id="${weapon.name}"></tr>`);
+        this.addActionsToRow(resultsRow);
         resultsRow.append(`<td>${weapon.weaponName}</td>`);
         resultsRow.append(`<td>${weapon.affinity}</td>`);
         resultsRow.append(`<td>${weapon.weaponType}</td>`);
@@ -69,20 +90,33 @@ class WeaponSearch {
             let attributeScaling = (weapon.levels[weaponDamage.level][attribute] > 0) ? scalingRating(weapon.levels[weaponDamage.level][attribute]) : '';
             resultsRow.append(`<td>${attributeScaling}</td>`);
         });
+
         // Passive effects
         let passiveEffects = [];
         passiveTypes.forEach(passiveType => {
             if (weaponDamage[passiveType]) {
-                passiveEffects.push(`${passiveType} (${Math.floor(weaponDamage[passiveType])})`);
+                let passiveTypeLabel = (passiveType === 'Scarlet Rot') ? 'Rot' : passiveType;
+                passiveEffects.push(`${passiveTypeLabel} (${Math.floor(weaponDamage[passiveType])})`);
             }
         });
         resultsRow.append(`<td>${passiveEffects.join(', ')}</td>`);
         this.resultsTableBody.append(resultsRow);
     }
 
-    registerRowClickCallbacks() {
-        this.resultsTableBody.children('tr').click((event, handler) => {
-            let weaponName = event.currentTarget.id;
+    addActionsToRow(tableRow) {
+        let tableData = $('<td></td>');
+        let compareButton = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0 me-1">${Icons.plusLg}</button>`);
+        let chartButton   = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0 me-1">${Icons.graphUp}</button>`);
+        tableData.append(compareButton);
+        tableData.append(chartButton);
+        tableRow.append(tableData);
+
+        compareButton.click((event, handler) => {
+            let weaponName = event.currentTarget.parentElement.parentElement.id;
+            this.chartArea.addWeaponComparison(weaponName);
+        });
+        chartButton.click((event, handler) => {
+            let weaponName = event.currentTarget.parentElement.parentElement.id;
             this.chartArea.showCharts(weaponName);
         });
     }

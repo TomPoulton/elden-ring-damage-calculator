@@ -1,0 +1,10 @@
+/* This is from bootstrap's docs.css that doesn't seem to be included in bootstrap.css */
+.bi {
+    display:inline-block;
+    vertical-align:-.125em
+}
+
+.btn-sm > .bi {
+    display:inline-block;
+    vertical-align:-.18em
+}
