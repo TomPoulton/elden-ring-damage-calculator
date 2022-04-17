@@ -16,13 +16,16 @@ function calculateScaledDamageForType(character, weapon, level, damageType, weap
     let scaledDamage = 0;
     if (weaponDamage > 0) {
         Character.damageAttributes.forEach((attribute) => {
-            // Check the flag to see if weapon scales this damage type with this attribute
-            if (weapon.scaling[damageType][attribute] === 1) {
-                attributeValue = character[attribute];
-                scalingValue = weapon.levels[level][attribute];
-                scalingCurve = weapon.scaling[damageType].curve;
-                scalingPercentage = calcScalingPercentage(scalingCurve, attributeValue);
-                scaledDamage += (scalingPercentage * scalingValue * weaponDamage);
+            if (weapon.damageTypeScalesWithAttribute(damageType, attribute)) {
+                let stat = character[attribute];
+                if (stat >= weapon.requirements[attribute]) {
+                    let scalingValue = weapon.levels[level][attribute];
+                    let scalingCurve = weapon.scaling[damageType].curve;
+                    let scalingPercentage = calcScalingPercentage(scalingCurve, stat);
+                    scaledDamage += (scalingPercentage * scalingValue * weaponDamage);
+                } else {
+                    scaledDamage = weaponDamage * -0.4;
+                }
             }
         });
     }
@@ -47,21 +50,6 @@ function calculateWeaponDamage(character, weapon, level) {
     damageTypes.forEach(damageType => {
         damage[damageType] = {};
     });
-
-    // This is a quick and dirty implementation that sets damage to 0 if you don't meet the requirements
-    if (character.Str < weapon.requirements.Str ||
-        character.Dex < weapon.requirements.Dex ||
-        character.Int < weapon.requirements.Int ||
-        character.Fai < weapon.requirements.Fai ||
-        character.Arc < weapon.requirements.Arc) {
-            damageTypes.forEach((damageType) => {
-                damage[damageType].weapon = 0;
-                damage[damageType].scaled = 0;
-                damage[damageType].total  = 0;
-                damage.totalAR = 0;
-            });
-            return damage;
-    }
 
     damageTypes.forEach((damageType) => {
         let weaponDamage = weapon.levels[level][damageType];

@@ -5,19 +5,17 @@ function loadWeaponData() {
     
     for (let i = 0; i < Weapons.count; i++) {
         const weaponData = extraData[i];
-        let weapon = {
-            name:       weaponData['Name'],
-            weaponName: weaponData['Weapon Name'],
-            weaponType: weaponData['Weapon Type'],
-            affinity:   weaponData['Affinity'],
-            maxUpgrade: parseInt(weaponData['Max Upgrade']),
-            requirements: {},
-            physicalDamageType: weaponData['Physical Damage Type']
-        }
+        let weapon = new Weapon(
+            weaponData['Name'],
+            weaponData['Weapon Name'],
+            weaponData['Affinity'],
+            weaponData['Weapon Type'],
+            parseInt(weaponData['Max Upgrade']),
+            weaponData['Physical Damage Type'],
+        );
         Character.damageAttributes.forEach(attribute => {
             weapon.requirements[attribute] = parseInt(weaponData[`Required (${attribute})`]);
         });
-        weapon.canCastSpells = (weapon.weaponType === 'Glintstone Staff' || weapon.weaponType === 'Sacred Seal');
         Weapons.all[i] = weapon;
     }
 
