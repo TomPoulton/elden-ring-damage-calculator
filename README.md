@@ -16,6 +16,10 @@ You can now see how the weapon's stats change with attributes in real time using
 
 ## Updates
 
+2022/04/16 - Fixed damage calculations when stats don't meet weapon requirements
+
+2022/04/15 - Added ability to exclude split damage weapons in damage type filter
+
 2022/04/14 - Fixed incorrect non-strength scaling values on all +0 weapons. UI updates
 
 2022/04/13 - Added weapon comparison charts
