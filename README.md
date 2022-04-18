@@ -46,9 +46,5 @@ All data and calculations are from the spreadsheet by u/TarnishedSpreadsheet [he
 I'm clearly not a frontend developer, my JS and UX foo is weak. Suggestions / improvements / PRs welcome!
 
 ## ToDo
-- Show weapon scaling with attributes
-    - just scale against one attribute for now (starting at minimum)
-    - Give dropdown for attribute select?
-- Do proper calculations when you're below the stat requirements
-- Add comparison chart to show 2 (or more?) weapons side by side
-    - Probably just AR for now
+- Weapon details section/modal that shows all data about weapon (damage, guard, requirements, etc)
+    - Level slider/select so user can choose what level to view.

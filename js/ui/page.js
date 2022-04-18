@@ -1,5 +1,7 @@
 $('.wait-for-import').prop('disabled', true);
 
+Character.addInputsToPage();
+
 $('.chart-button').append(Icons.graphUp);
 $('.compare-button').append(Icons.plusLg);
 
