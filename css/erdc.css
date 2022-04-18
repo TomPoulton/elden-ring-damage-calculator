@@ -8,3 +8,7 @@
     display:inline-block;
     vertical-align:-.18em
 }
+
+.invalid-input {
+    border-color: #dc3545;
+}

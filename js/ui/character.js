@@ -50,8 +50,16 @@ class Character {
                 let val = parseInt(this.value);
                 if (this.value < min || isNaN(val)) {
                     this.value = min;
+                    this.classList.add('invalid-input');
+                    setTimeout(() => {
+                        this.classList.remove('invalid-input');
+                    }, 800);
                 } else if (this.value > max) {
                     this.value = max;
+                    this.classList.add('invalid-input');
+                    setTimeout(() => {
+                        this.classList.remove('invalid-input');
+                    }, 800);
                 }
             });
         });
