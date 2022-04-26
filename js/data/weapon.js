@@ -1,12 +1,13 @@
 class Weapon {
 
-    constructor(name, weaponName, affinity, weaponType, maxUpgrade, physicalDamageType) {
+    constructor(name, weaponName, affinity, weaponType, maxUpgrade, physicalDamageType, weight) {
         this.name               = name;
         this.weaponName         = weaponName;
         this.affinity           = affinity;
         this.weaponType         = weaponType;
         this.maxUpgrade         = maxUpgrade;
         this.physicalDamageType = physicalDamageType;
+        this.weight             = weight;
         this.canCastSpells      = (weaponType === 'Glintstone Staff' || weaponType === 'Sacred Seal');
         this.requirements       = {};
         this.scaling            = {};

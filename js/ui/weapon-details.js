@@ -45,7 +45,7 @@ class WeaponDetails {
         this.summaryTable.children().remove();
         this.summaryTable.append(`<tr><th>Name</th><td>${weapon.weaponName}</td><th>Phys Damage</th><td>${weapon.physicalDamageType}</td></tr>`);
         this.summaryTable.append(`<tr><th>Type</th><td>${weapon.weaponType}</td><th>Affinity</th><td>${weapon.affinity}</td></tr>`);
-        this.summaryTable.append(`<tr><th>Weight</th><td>${'TBC'}</td><td colspan="2"></td></tr>`);
+        this.summaryTable.append(`<tr><th>Weight</th><td>${weapon.weight}</td><td colspan="2"></td></tr>`);
         // Add Crit when we have the data
     }
 

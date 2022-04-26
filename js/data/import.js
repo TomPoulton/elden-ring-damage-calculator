@@ -12,6 +12,7 @@ function loadWeaponData() {
             weaponData['Weapon Type'],
             parseInt(weaponData['Max Upgrade']),
             weaponData['Physical Damage Type'],
+            weaponData['Weight'],
         );
         Character.damageAttributes.forEach(attribute => {
             weapon.requirements[attribute] = parseInt(weaponData[`Required (${attribute})`]);
