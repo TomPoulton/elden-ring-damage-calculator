@@ -11,7 +11,7 @@ class AttackRating {
 
     formatPassive(passiveType) {
         let passiveTypeLabel = (passiveType === 'Scarlet Rot') ? 'Rot' : passiveType;
-        return `${passiveTypeLabel} (${this[passiveType]})`;
+        return `${passiveTypeLabel} (${Math.floor(this[passiveType])})`;
     }
 
     formatPassives() {

@@ -43,13 +43,13 @@ class WeaponDetails {
 
         damageTypes.forEach(damageType => {
             headRow.append(`<th>${damageType}</th>`);
-            attackRow.append(`<td>${attackRating[damageType].weapon}</td>`);
-            scaledRow.append(`<td>${attackRating[damageType].scaled}</td>`);
-            totalRow.append( `<td>${attackRating[damageType].total }</td>`);
+            attackRow.append(`<td>${attackRating[damageType].weapon.displayString()}</td>`);
+            scaledRow.append(`<td>${attackRating[damageType].scaled.displayString()}</td>`);
+            totalRow.append( `<td>${attackRating[damageType].total.displayString()}</td>`);
         });
 
-        tfoot.append(`<tr><th>AR</th><td colspan="5">${attackRating.totalAR}</td></tr>`);
-        tfoot.append(`<tr><th>Spell Scaling</th><td colspan="5">${attackRating.spellScaling}</td></tr>`);
+        tfoot.append(`<tr><th>AR</th><td colspan="5">${attackRating.totalAR.displayString()}</td></tr>`);
+        tfoot.append(`<tr><th>Spell Scaling</th><td colspan="5">${attackRating.spellScaling.displayString()}</td></tr>`);
         tfoot.append(`<tr><th>Passives</th><td colspan="5">${attackRating.formatPassives()}</td></tr>`);
     }
 

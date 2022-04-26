@@ -43,7 +43,8 @@ class WeaponSearch {
     }
 
     addHeaderRow() {
-        let row = [
+        let headerRow = this.resultsTableHead.append('<tr></tr>').children('tr');
+        [
             '', // Actions
             'Name',
             'Affinity',
@@ -62,13 +63,9 @@ class WeaponSearch {
             'Fai',
             'Arc',
             'Passives',
-        ];
-            
-        let headerRow = $('<tr></tr>');
-        row.forEach(heading => {
+        ].forEach(heading => {
             headerRow.append(`<th>${heading}</th>`);
         });
-        this.resultsTableHead.append(headerRow);
     }
 
     addBodyRow(attackRating) {
@@ -80,10 +77,10 @@ class WeaponSearch {
         resultsRow.append(`<td>${weapon.affinity}</td>`);
         resultsRow.append(`<td>${weapon.weaponType}</td>`);
         resultsRow.append(`<td>${attackRating.level}</td>`);
-        resultsRow.append(`<td>${attackRating.spellScaling}</td>`);
-        resultsRow.append(`<td style="font-weight: bold;">${attackRating.totalAR}</td>`);
+        resultsRow.append(`<td>${attackRating.spellScaling.displayString()}</td>`);
+        resultsRow.append(`<td style="font-weight: bold;">${attackRating.totalAR.displayString()}</td>`);
         damageTypes.forEach((damageType) => {
-            resultsRow.append(`<td>${attackRating[damageType].total}</td>`);
+            resultsRow.append(`<td>${attackRating[damageType].total.displayString()}</td>`);
         });
         Character.damageAttributes.forEach(attribute => {
             let elementClass = (character.meetsWeaponRequirement(weapon, attribute)) ? '' : 'class="low-stat"';
@@ -97,7 +94,7 @@ class WeaponSearch {
         let tableData = tableRow.append('<td></td>').children('td:last-child');
         let compareButton = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0">${Icons.plusLg}</button>`);
         let chartButton   = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0">${Icons.graphUp}</button>`);
-        let detailsButton = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0 me-1">${Icons.listColumnsReverse}</button>`);
+        let detailsButton = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0">${Icons.listColumnsReverse}</button>`);
         tableData.append(compareButton);
         tableData.append(chartButton);
         tableData.append(detailsButton);

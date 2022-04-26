@@ -17,6 +17,18 @@ let weaponSearch = new WeaponSearch(chartArea);
 
 $('.wait-for-import').prop('disabled', false);
 
+// This works because a number primitive gets promoted to a Number object when a method is called on it
+Object.defineProperty(Number.prototype, 'displayString', {
+    value: function displayString() {
+        // Don't use === here
+        if (this == 0) {
+            return '';
+        } else {
+            return Math.floor(this);
+        }
+    }
+});
+
 // Initialize all the tooltips
 // Only do this once, otherwise things get messy
 let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
