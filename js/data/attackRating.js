@@ -2,7 +2,7 @@ class AttackRating {
 
     constructor(weapon, level) {
         this.weapon  = weapon;
-        this.level   = level;
+        this.level   = parseInt(level);
         this.totalAR = 0;
         damageTypes.forEach(damageType => {
             this[damageType] = {};

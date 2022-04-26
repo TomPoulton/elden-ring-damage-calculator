@@ -6,27 +6,46 @@ class WeaponDetails {
     static summaryTable    = $('#weaponDetailsSummaryTable');
     static attackTable     = $('#weaponDetailsAttackTable');
     static attributesTable = $('#weaponDetailsAttributesTable');
+    static weaponNameInput = $('#weaponDetailsWeaponName');
+    static levelValue      = $('#weaponDetailsLevel');
+    static levelSlider     = $('#weaponDetailsSlider');
+
+    static weapon = null;
 
     static show(weaponName) {
-        this.updateWeaponDetails(weaponName);
+        this.weapon = Weapons.find(weaponName);
+        this.setupLevelSlider(this.weapon.maxUpgrade);
+        this.updateWeaponDetails(this.weapon.maxUpgrade);
         this.modal.show();
     }
 
-    static updateWeaponDetails(weaponName) {
-        let weapon = Weapons.find(weaponName);
-        let character = Character.getStats();
-        let attackRating = calculateWeaponDamage(character, weapon, weapon.maxUpgrade);
-        this.modalLabel.html(`${weaponName} Details`)
-        this.updateSummaryTable(weapon);
+    static setupLevelSlider(level) {
+        this.levelSlider.attr({max: this.weapon.maxUpgrade});
+        this.levelSlider.val(level);
+        this.levelValue.val(level);
+
+        this.levelSlider.off('input').on('input', () => {
+            let inputLevel = this.levelSlider.val();
+            this.levelValue.val(inputLevel);
+            this.updateWeaponDetails(inputLevel);
+        });
+    }
+
+    static updateWeaponDetails(level) {
+        let character  = Character.getStats();
+        let attackRating = calculateWeaponDamage(character, this.weapon, level);
+        this.modalLabel.html(`${this.weapon.weaponName} Details`)
+        this.updateSummaryTable(attackRating);
         this.updateAttackTable(attackRating);
         this.updateAttributesTable(attackRating, character);
     }
 
-    static updateSummaryTable(weapon) {
+    static updateSummaryTable(attackRating) {
+        let weapon = attackRating.weapon;
         this.summaryTable.children().remove();
         this.summaryTable.append(`<tr><th>Name</th><td>${weapon.weaponName}</td><th>Phys Damage</th><td>${weapon.physicalDamageType}</td></tr>`);
         this.summaryTable.append(`<tr><th>Type</th><td>${weapon.weaponType}</td><th>Affinity</th><td>${weapon.affinity}</td></tr>`);
-        this.summaryTable.append(`<tr><th>Weight</th><td>${'TBC'}</td><th>Max Level</th><td>${weapon.maxUpgrade}</td></tr>`);
+        this.summaryTable.append(`<tr><th>Weight</th><td>${'TBC'}</td><td colspan="2"></td></tr>`);
         // Add Crit when we have the data
     }
 
