@@ -63,6 +63,7 @@ class ChartArea {
         let character = Character.getStats();
         let attribute = this.attributeSelect.val();
         character[attribute] = this.attributeSlider.val();
+        this.attributeValueStyling(character, attribute);
         if (this.compareMode) {
             this.updateComparisonCharts(character);
         } else {
@@ -82,11 +83,27 @@ class ChartArea {
         this.chartGroup.updateComparisonCharts(damageLevelsArray);
     }
 
+    attributeValueStyling(character, attribute) {
+        let requirementsMet = true;
+        this.weapons.forEach(weapon => {
+            if (!character.meetsWeaponRequirement(weapon, attribute)) {
+                requirementsMet = false;
+            }
+        });
+        if (requirementsMet) {
+            this.attributeValue.removeClass('low-stat');
+        } else {
+            this.attributeValue.addClass('low-stat');
+        }
+    }
+
     resetAttributeSliderAndValue() {
         let attribute = this.attributeSelect.val();
-        let attributeValue = Character.getStat(attribute);
+        let character = Character.getStats();
+        let attributeValue = character[attribute];
         this.attributeSlider.val(attributeValue);
         this.attributeValue.val(attributeValue);
+        this.attributeValueStyling(character, attribute);
     }
 
     hideAllCharts() {

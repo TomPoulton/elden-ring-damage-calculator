@@ -21,16 +21,22 @@ class Character {
         return (attribute.id);
     });
     
-    static getStats() {
-        const character = {};
-        this.attributes.forEach(attribute => {
-            character[attribute] = this.getStat(attribute);
-        });
-        return character;
-    }
-
     static getStat(attribute) {
         return parseInt($(`#${attribute}`).val());
+    }
+
+    static getStats() {
+        return new Character();
+    }
+
+    constructor() {
+        Character.attributes.forEach(attribute => {
+            this[attribute] = Character.getStat(attribute);
+        });
+    }
+
+    meetsWeaponRequirement(weapon, attribute) {
+        return (this[attribute] >= weapon.requirements[attribute]);
     }
 
     static addInputsToPage() {

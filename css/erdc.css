@@ -12,3 +12,11 @@
 .invalid-input {
     border-color: #dc3545;
 }
+
+input.low-stat {
+    border-color: #dc3545;
+}
+
+.low-stat {
+    color: #dc3545;
+}

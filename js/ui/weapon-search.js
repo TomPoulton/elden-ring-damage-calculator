@@ -72,6 +72,7 @@ class WeaponSearch {
     }
 
     addBodyRow(weaponDamage) {
+        let character = Character.getStats();
         let weapon = weaponDamage.weapon;
         let resultsRow = $(`<tr id="${weapon.name}"></tr>`);
         this.addActionsToRow(resultsRow);
@@ -88,7 +89,8 @@ class WeaponSearch {
         Character.damageAttributes.forEach(attribute => {
             // resultsRow.append(`<td>${attributeScalingString(weapon.levels[weaponDamage.level][attribute])}</td>`);
             let attributeScaling = (weapon.levels[weaponDamage.level][attribute] > 0) ? scalingRating(weapon.levels[weaponDamage.level][attribute]) : '';
-            resultsRow.append(`<td>${attributeScaling}</td>`);
+            let elementClass = (character.meetsWeaponRequirement(weapon, attribute)) ? '' : 'class="low-stat"';
+            resultsRow.append(`<td ${elementClass}>${attributeScaling}</td>`);
         });
 
         // Passive effects

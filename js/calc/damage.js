@@ -17,11 +17,10 @@ function calculateScaledDamageForType(character, weapon, level, damageType, weap
     if (weaponDamage > 0) {
         Character.damageAttributes.forEach((attribute) => {
             if (weapon.damageTypeScalesWithAttribute(damageType, attribute)) {
-                let stat = character[attribute];
-                if (stat >= weapon.requirements[attribute]) {
+                if (character.meetsWeaponRequirement(weapon, attribute)) {
                     let scalingValue = weapon.levels[level][attribute];
                     let scalingCurve = weapon.scaling[damageType].curve;
-                    let scalingPercentage = calcScalingPercentage(scalingCurve, stat);
+                    let scalingPercentage = calcScalingPercentage(scalingCurve, character[attribute]);
                     scaledDamage += (scalingPercentage * scalingValue * weaponDamage);
                 } else {
                     scaledDamage = weaponDamage * -0.4;
