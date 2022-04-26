@@ -94,12 +94,13 @@ class WeaponSearch {
     }
 
     addActionsToRow(tableRow) {
-        let tableData = $('<td></td>');
-        let compareButton = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0 me-1">${Icons.plusLg}</button>`);
-        let chartButton   = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0 me-1">${Icons.graphUp}</button>`);
+        let tableData = tableRow.append('<td></td>').children('td:last-child');
+        let compareButton = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0">${Icons.plusLg}</button>`);
+        let chartButton   = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0">${Icons.graphUp}</button>`);
+        let detailsButton = $(`<button type="button" class="btn btn-outline-primary btn-sm border-0 me-1">${Icons.listColumnsReverse}</button>`);
         tableData.append(compareButton);
         tableData.append(chartButton);
-        tableRow.append(tableData);
+        tableData.append(detailsButton);
 
         compareButton.click((event, handler) => {
             let weaponName = event.currentTarget.parentElement.parentElement.id;
@@ -108,6 +109,10 @@ class WeaponSearch {
         chartButton.click((event, handler) => {
             let weaponName = event.currentTarget.parentElement.parentElement.id;
             this.chartArea.showCharts(weaponName);
+        });
+        detailsButton.click((event, handler) => {
+            let weaponName = event.currentTarget.parentElement.parentElement.id;
+            WeaponDetails.show(weaponName);
         });
     }
 }

@@ -52,7 +52,8 @@
             <datalist id="weaponSelectList">
             </datalist>
             <button type="button" class="btn btn-outline-primary compare-button wait-for-import" id="compareWeapon" data-bs-toggle="tooltip" title="Add weapon for comparison"></button>
-            <button type="button" class="btn btn-outline-primary chart-button wait-for-import" id="showWeaponCharts" data-bs-toggle="tooltip" title="View charts for weapons"></button>
+            <button type="button" class="btn btn-outline-primary chart-button wait-for-import" id="showWeaponCharts" data-bs-toggle="tooltip" title="View charts for weapon"></button>
+            <button type="button" class="btn btn-outline-primary details-button wait-for-import" id="showWeaponDetails" data-bs-toggle="tooltip" title="View weapon details"></button>
           </div>
         </div>
       </div>
@@ -150,6 +151,35 @@
       </div>
     </div>
 
+    <!-- Weapon details modal -->
+    <div class="modal fade" id="weaponDetailsModal" tabindex="-1" aria-labelledby="weaponDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="weaponDetailsModalLabel">Weapon Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="weaponDetailsModalBody">
+
+            <div class="row justify-content-md-center">
+              <div class="col-8">
+                <table id="weaponDetailsSummaryTable" class="table table-sm table-borderless">
+                </table>
+                <table id="weaponDetailsAttackTable" class="table table-sm table-bordered mt-4" >
+                </table>
+                <table id="weaponDetailsAttributesTable" class="table table-sm table-bordered mt-4" >
+                </table>
+              </div>
+            </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Help modal -->
     <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl">
@@ -221,6 +251,7 @@
 
     <script src="js/data/weapon.js"></script>
     <script src="js/data/weapons.js"></script>
+    <script src="js/data/attackRating.js"></script>
     <script src="js/data/damage.js"></script>
     <script src="js/data/weapon-types.js"></script>
     <script src="js/data/import.js"></script>
@@ -248,6 +279,7 @@
 
     <script src="js/ui/weapon-search.js"></script>
     <script src="js/ui/weapon-select.js"></script>
+    <script src="js/ui/weapon-details.js"></script>
     <script src="js/ui/page.js"></script>
   </body>
 </html>

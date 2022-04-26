@@ -4,6 +4,7 @@ Character.addInputsToPage();
 
 $('.chart-button').append(Icons.graphUp);
 $('.compare-button').append(Icons.plusLg);
+$('.details-button').append(Icons.listColumnsReverse);
 
 // From data/import.js
 loadWeaponData();
