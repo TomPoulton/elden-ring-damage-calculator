@@ -40,32 +40,28 @@ function calculateSpellScaling(character, weapon, level) {
     }
 }
 
+// Yes, we lose some precision when sorting because we floor all floats now, but does a fraction of an attack point make a difference?
 function calculateWeaponDamage(character, weapon, level) {
-    let damage = {
-        weapon: weapon,
-        level: level,
-        totalAR: 0,
-    }
-    damageTypes.forEach(damageType => {
-        damage[damageType] = {};
-    });
-
+    let attackRating = new AttackRating(weapon, level);
+    
     damageTypes.forEach((damageType) => {
         let weaponDamage = weapon.levels[level][damageType];
         let scaledDamage = calculateScaledDamageForType(character, weapon, level, damageType, weaponDamage);
         let sum = weaponDamage + scaledDamage;
 
-        damage[damageType].weapon = weaponDamage;
-        damage[damageType].scaled = scaledDamage;
-        damage[damageType].total  = sum;
-        damage.totalAR += sum;
+        attackRating[damageType].weapon = Math.floor(weaponDamage);
+        attackRating[damageType].scaled = Math.floor(scaledDamage);
+        attackRating[damageType].total  = Math.floor(sum);
+        attackRating.totalAR += sum;
     });
 
     passiveTypes.forEach(passiveType => {
-        damage[passiveType] = calculateScaledPassiveEffect(character, weapon, level, passiveType);
+        attackRating[passiveType] = Math.floor(calculateScaledPassiveEffect(character, weapon, level, passiveType));
     });
 
-    damage.spellScaling = calculateSpellScaling(character, weapon, level);
+    // Clean the AR value once all the sums have been done
+    attackRating.totalAR = Math.floor(attackRating.totalAR);
+    attackRating.spellScaling = Math.floor(calculateSpellScaling(character, weapon, level));
 
-    return damage;
+    return attackRating;
 }

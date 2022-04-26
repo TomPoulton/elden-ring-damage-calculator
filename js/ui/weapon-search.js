@@ -71,37 +71,25 @@ class WeaponSearch {
         this.resultsTableHead.append(headerRow);
     }
 
-    addBodyRow(weaponDamage) {
+    addBodyRow(attackRating) {
         let character = Character.getStats();
-        let weapon = weaponDamage.weapon;
+        let weapon = attackRating.weapon;
         let resultsRow = $(`<tr id="${weapon.name}"></tr>`);
         this.addActionsToRow(resultsRow);
         resultsRow.append(`<td>${weapon.weaponName}</td>`);
         resultsRow.append(`<td>${weapon.affinity}</td>`);
         resultsRow.append(`<td>${weapon.weaponType}</td>`);
-        resultsRow.append(`<td>${weaponDamage.level}</td>`);
-        let spellScaling = (weaponDamage.spellScaling > 0) ? Math.floor(weaponDamage.spellScaling) : '-';
-        resultsRow.append(`<td>${spellScaling}</td>`);
-        resultsRow.append(`<td style="font-weight: bold;">${Math.floor(weaponDamage.totalAR)}</td>`);
+        resultsRow.append(`<td>${attackRating.level}</td>`);
+        resultsRow.append(`<td>${attackRating.spellScaling}</td>`);
+        resultsRow.append(`<td style="font-weight: bold;">${attackRating.totalAR}</td>`);
         damageTypes.forEach((damageType) => {
-            resultsRow.append(`<td>${Math.floor(weaponDamage[damageType].total)}</td>`);
+            resultsRow.append(`<td>${attackRating[damageType].total}</td>`);
         });
         Character.damageAttributes.forEach(attribute => {
-            // resultsRow.append(`<td>${attributeScalingString(weapon.levels[weaponDamage.level][attribute])}</td>`);
-            let attributeScaling = (weapon.levels[weaponDamage.level][attribute] > 0) ? scalingRating(weapon.levels[weaponDamage.level][attribute]) : '';
             let elementClass = (character.meetsWeaponRequirement(weapon, attribute)) ? '' : 'class="low-stat"';
-            resultsRow.append(`<td ${elementClass}>${attributeScaling}</td>`);
+            resultsRow.append(`<td ${elementClass}>${weapon.formatScaling(attribute, attackRating.level, false)}</td>`);
         });
-
-        // Passive effects
-        let passiveEffects = [];
-        passiveTypes.forEach(passiveType => {
-            if (weaponDamage[passiveType]) {
-                let passiveTypeLabel = (passiveType === 'Scarlet Rot') ? 'Rot' : passiveType;
-                passiveEffects.push(`${passiveTypeLabel} (${Math.floor(weaponDamage[passiveType])})`);
-            }
-        });
-        resultsRow.append(`<td>${passiveEffects.join(', ')}</td>`);
+        resultsRow.append(`<td>${attackRating.formatPassives()}</td>`);
         this.resultsTableBody.append(resultsRow);
     }
 

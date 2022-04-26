@@ -17,4 +17,20 @@ class Weapon {
     damageTypeScalesWithAttribute(damageType, attribute) {
         return (this.scaling[damageType][attribute] === 1);
     }
+
+    formatScaling(attribute, level, showValue = true) {
+        let scaling = this.levels[level][attribute];
+        if (scaling === 0) {
+            return '';
+        } else {
+            let displayValue = Math.floor(scaling * 100);
+            let ratingLetter = scalingRating(scaling);
+            return (showValue) ? `${ratingLetter} (${displayValue})` : ratingLetter;
+        }
+    }
+
+    formatRequirement(attribute) {
+        let requirement = this.requirements[attribute];
+        return (requirement > 0) ? requirement : '';
+    }
 }

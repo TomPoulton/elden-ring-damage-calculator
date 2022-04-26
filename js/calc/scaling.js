@@ -158,12 +158,3 @@ function scalingRating(scalingValue) {
     else if (scalingValue >= 0.25) { return 'D'; }
     else { return 'E'; }
 }
-
-function attributeScalingString(attributeValue) {
-    if (attributeValue === 0) {
-        return ''
-    }
-    let displayValue = Math.floor(attributeValue * 100);
-    let displayRating = scalingRating(attributeValue);
-    return `${displayRating} (${displayValue})`;
-}
