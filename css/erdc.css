@@ -9,6 +9,15 @@
     vertical-align:-.18em
 }
 
+.table-xs > :not(caption) > * > * {
+    padding: 0.1rem 0.1rem;
+}
+
+.ar {
+    font-weight: bold;
+    color: #111d5b;
+}
+
 .invalid-input {
     border-color: #dc3545;
 }

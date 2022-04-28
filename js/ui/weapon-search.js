@@ -49,7 +49,7 @@ class WeaponSearch {
             'Name',
             'Affinity',
             'Type',
-            // 'Level',
+            'Lvl',
             `SS <span data-bs-toggle="tooltip" title="Spell Scaling for Sorceries or Incantaions">${Icons.help}</span>`,
             `AR <span data-bs-toggle="tooltip" title="Attack Rating aka Total Damage">${Icons.help}</span>`,
             'Phys',
@@ -76,9 +76,9 @@ class WeaponSearch {
         resultsRow.append(`<td>${weapon.weaponName}</td>`);
         resultsRow.append(`<td>${weapon.affinity}</td>`);
         resultsRow.append(`<td>${weapon.weaponType}</td>`);
-        // resultsRow.append(`<td>${attackRating.level}</td>`);
-        resultsRow.append(`<td>${attackRating.spellScaling.displayString()}</td>`);
-        resultsRow.append(`<td style="font-weight: bold;">${attackRating.totalAR.displayString()}</td>`);
+        resultsRow.append(`<td>${attackRating.level}</td>`);
+        resultsRow.append(`<td class="ar">${attackRating.spellScaling.displayString()}</td>`);
+        resultsRow.append(`<td class="ar">${attackRating.totalAR.displayString()}</td>`);
         damageTypes.forEach((damageType) => {
             resultsRow.append(`<td>${attackRating[damageType].total.displayString()}</td>`);
         });

@@ -67,8 +67,8 @@ class WeaponDetails {
             totalRow.append( `<td>${attackRating[damageType].total.displayString()}</td>`);
         });
 
-        tfoot.append(`<tr><th>AR</th><td colspan="5">${attackRating.totalAR.displayString()}</td></tr>`);
-        tfoot.append(`<tr><th>Spell Scaling</th><td colspan="5">${attackRating.spellScaling.displayString()}</td></tr>`);
+        tfoot.append(`<tr><th>AR</th><td colspan="5" class="ar">${attackRating.totalAR.displayString()}</td></tr>`);
+        tfoot.append(`<tr><th>Spell Scaling</th><td colspan="5" class="ar">${attackRating.spellScaling.displayString()}</td></tr>`);
         tfoot.append(`<tr><th>Passives</th><td colspan="5">${attackRating.formatPassives()}</td></tr>`);
     }
 
