@@ -9,6 +9,10 @@
     vertical-align:-.18em
 }
 
+.input-group > .tripple-digit {
+    width: 3ch;
+}
+
 .table-xs > :not(caption) > * > * {
     padding: 0.1rem 0.1rem;
 }
