@@ -16,6 +16,10 @@ You can now see how the weapon's stats change with attributes in real time using
 
 ## Updates
 
+2022/04/30 - Added Select All and Clear All buttons for weapon type filters (thanks DanCAnderson)
+
+2022/04/27 - Updates for patch 1.04 and added character level to UI
+
 2022/04/25 - Added weapon details modal. Show when character doesn't meet weapon requirements. Added attribute input validation. 
 
 2022/04/16 - Fixed damage calculations when stats don't meet weapon requirements
